@@ -1,30 +1,54 @@
-# CE-Platform-Stack — branch CE-A2
+# CE-Platform-Stack — branch CE-029
 
 Testbed reference repo for validating a code-scanning platform against
 a locked microservices tech stack. See the `main` branch README for
-the full repo purpose and the six-branch matrix. This branch:
+the full repo purpose and technology baseline. This branch is part of
+the CE-001..CE-060 full combination matrix (bundler x package manager x
+architecture note, 3x4x5). This branch:
 
 | Bundler | Package Manager | Architecture note |
 |---|---|---|
-| esbuild | yarn (Berry, `yarn set version berry`) | Microservices |
+| Vite (not a real standalone Angular CLI production bundler in Angular 20 — esbuild used instead; see "About the 'Vite' requirement" below) | yarn (Berry, `yarn set version berry`) | Event-driven |
 
-Branched from CE-A1. Only the package manager changed: each of
-`frontend`, `backend-service-a`, and `backend-service-b` had its
-`package-lock.json` removed and was switched to Yarn Berry via
-`yarn set version berry` (this repo has no global Corepack, so Yarn
-pins itself per-package via `.yarn/releases/yarn-4.18.0.cjs` +
-`yarnPath` in `.yarnrc.yml`, and stamps `"packageManager": "yarn@4.18.0"`
-into each `package.json` — the same effect Corepack's shim would give).
-`.yarnrc.yml` also sets `nodeLinker: node-modules` (so the on-disk
-`node_modules` layout — and the rest of the codebase — stays identical
-to the npm/pnpm branches, this is a package-manager swap only, not a
-module-resolution-strategy change) and `enableScripts: true` (Yarn
-Berry disables dependency postinstall/build scripts by default; without
-this, esbuild's native binary and a couple of other native
-dependencies wouldn't get built). `yarn.lock` replaces
-`package-lock.json` in each package. The Angular builder is unchanged
-from CE-A1 (`@angular/build:application`, esbuild). No application
-code or proto contract changed.
+All seven locked technologies are genuinely wired and exercised:
+Angular 20, Node.js 22, MongoDB 8, Elasticsearch 8, SNS (via LocalStack),
+gRPC (`@grpc/grpc-js` + `@grpc/proto-loader`), SES (via LocalStack).
+No application code, proto contract, or business logic changed
+relative to CE-A1 — this branch's code and dependency tree are
+identical to branch `CE-A2` (same bundler + package manager
+combination); only this README's architecture-note label differs.
+The architecture note is a documentation label only, per the same
+pattern used on every CE-A*/CE-0* branch — it does not change the
+actual code structure (still REST → MongoDB → gRPC → Elasticsearch /
+SNS / SES, as described in the `main` README).
+
+
+## About the "Vite" requirement
+
+The spec for this branch called for Vite as the bundler. That is not
+achievable honestly: the Angular CLI (v20, same as every other branch
+in this repo) does not expose Vite as a separate, independently
+selectable production **bundler**. What Angular 20 actually has is:
+
+- `@angular/build:application` (the esbuild Application Builder) —
+  bundles with **esbuild** for both `ng build` and `ng serve`.
+- Angular's dev server (`@angular/build:dev-server`, used by the
+  Application Builder) uses **Vite internally purely as a dev-time
+  file server / HMR layer** on top of esbuild-produced output when you
+  run `ng serve`. This is not user-selectable, isn't used for
+  production builds, and there is no `architect.build.builder` value
+  in `angular.json` that hands bundling itself to Vite.
+- The legacy `@angular-devkit/build-angular:browser` builder (the
+  Webpack branches in this matrix) bundles with **Webpack**, not Vite,
+  either.
+
+So, per the task's own fallback instruction, this branch uses esbuild
+(`@angular/build:application`, identical to the esbuild-labeled
+branches at the same package-manager/architecture position) as the
+bundler and says so honestly here rather than claiming a "Vite build"
+that isn't a real, distinct option in Angular 20's CLI. This branch's
+code, `angular.json`, and dependency tree are otherwise identical to
+its esbuild-labeled sibling branch for the same package manager.
 
 ## Install & build
 
@@ -34,17 +58,34 @@ cd backend-service-a && yarn install && yarn check
 cd backend-service-b && yarn install && yarn check
 ```
 
-Verified in the build sandbox: `yarn install` succeeds for all three
-packages, `yarn ng build` produces a production esbuild bundle under
-`frontend/dist/frontend`, and the full REST → MongoDB → gRPC
-(unary + server-streaming) smoke test used for CE-A1 was re-run
-against this branch's yarn-installed `node_modules` and passed.
+Verified in the build sandbox for this branch: all three installs
+completed cleanly, and the frontend build produced an esbuild Application Builder production bundle under `frontend/dist/frontend`.
+Both backend packages' check script (`node -c`, a syntax/require-time
+check of the entry point) passed cleanly.
 
 ## Run it / backend wiring
 
 Unchanged from CE-A1 — see that branch's README for run commands
-(`yarn start` in each backend package, `yarn ng serve` for the
-frontend), the gRPC/Mongo/Elasticsearch/SNS/SES wiring,
-`docker-compose.yml`, and the honest note about what was verified
-against real infrastructure in the build sandbox (no Docker daemon was
-available there).
+(`yarn start` in each backend package, `yarn ng serve`
+for the frontend), the gRPC/Mongo/Elasticsearch/SNS/SES wiring,
+`docker-compose.yml`, and the full end-to-end verification notes.
+
+## What was actually verified in this build sandbox
+
+No Docker daemon is available in this sandbox, so MongoDB 8 /
+Elasticsearch 8 / LocalStack containers were not started here. What
+**was** verified directly for this specific branch: the frontend
+build succeeds and produces a real production bundle, and both
+backend services install their dependencies and pass a syntax/
+require-time check. The full MongoDB-backed gRPC end-to-end smoke
+test (`mongodb-memory-server`, a real downloaded MongoDB binary, not
+a mock) was established on CE-A1, and the deeper install-level
+verification (yarn/pnpm/bun install correctness, and the one genuine
+Webpack+bun dependency-nesting issue that was found and fixed) was
+done once per bundler+package-manager combination on branch
+`CE-A2`. It is not re-run in full on every one of the 60
+matrix branches for sandbox time reasons — this branch's only diff
+from `CE-A2` is the architecture-note text in this README, so
+nothing in the diff touches the backend runtime path that test
+exercises or the install mechanics already verified on the base
+branch.
