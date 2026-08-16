@@ -45,6 +45,8 @@ Every branch below ships the exact same code and functionality. They
 differ **only** in bundler, package manager, and a target-architecture
 note in that branch's own README.
 
+### Original six-branch set (CE-A1..CE-A6)
+
 | Branch | Bundler | Package Manager | Architecture note |
 |---|---|---|---|
 | CE-A1 | esbuild (Angular's default Application Builder, `@angular/build`) | npm | Microservices |
@@ -54,6 +56,92 @@ note in that branch's own README.
 | CE-A5 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | npm | Microservices |
 | CE-A6 | Webpack | pnpm | Distributed System |
 
-`main` holds only this README. All runnable code lives on the six
-`CE-A*` branches — check out the branch you need and read its README
-for exact run commands and any caveats specific to that combination.
+### Full combination matrix (CE-001..CE-060)
+
+`CE-A1`..`CE-A6` above were the original validation set. `CE-001`
+through `CE-060` extend the same repo to the **full cross-product** of
+bundler (esbuild / Vite / Webpack) x package manager (npm / yarn
+Berry / pnpm / bun) x architecture-note label (Monolith / Modular
+Monolith / Microservices / Event-driven / Distributed System) — 3 x 4
+x 5 = 60 branches. All seven locked technologies are unchanged, all
+60 branches. "Vite" is not a real independently-selectable Angular 20
+CLI bundler (Angular's esbuild Application Builder uses Vite
+internally only for its dev-server, not for `ng build`); every
+Vite-labeled branch below uses esbuild instead and documents that
+substitution honestly in its own README, exactly as `CE-A4` already
+did for the original six-branch set. Two combinations required a
+genuinely new dependency install that didn't exist in the original
+six branches — Webpack+yarn (`CE-046`) and Webpack+bun (`CE-056`) —
+both branches' READMEs document install/build verification in detail,
+including one real dependency-nesting issue hit and fixed on the
+Webpack+bun combination. Every other branch in the matrix reuses the
+already-verified code+dependency tree of its bundler+package-manager
+sibling and only changes its own README's architecture-note label.
+
+| Branch | Bundler | Package Manager | Architecture note |
+|---|---|---|---|
+| CE-001 | esbuild (Angular's default Application Builder, `@angular/build`) | npm | Monolith |
+| CE-002 | esbuild (Angular's default Application Builder, `@angular/build`) | npm | Modular Monolith |
+| CE-003 | esbuild (Angular's default Application Builder, `@angular/build`) | npm | Microservices |
+| CE-004 | esbuild (Angular's default Application Builder, `@angular/build`) | npm | Event-driven |
+| CE-005 | esbuild (Angular's default Application Builder, `@angular/build`) | npm | Distributed System |
+| CE-006 | esbuild (Angular's default Application Builder, `@angular/build`) | yarn (Berry) | Monolith |
+| CE-007 | esbuild (Angular's default Application Builder, `@angular/build`) | yarn (Berry) | Modular Monolith |
+| CE-008 | esbuild (Angular's default Application Builder, `@angular/build`) | yarn (Berry) | Microservices |
+| CE-009 | esbuild (Angular's default Application Builder, `@angular/build`) | yarn (Berry) | Event-driven |
+| CE-010 | esbuild (Angular's default Application Builder, `@angular/build`) | yarn (Berry) | Distributed System |
+| CE-011 | esbuild (Angular's default Application Builder, `@angular/build`) | pnpm | Monolith |
+| CE-012 | esbuild (Angular's default Application Builder, `@angular/build`) | pnpm | Modular Monolith |
+| CE-013 | esbuild (Angular's default Application Builder, `@angular/build`) | pnpm | Microservices |
+| CE-014 | esbuild (Angular's default Application Builder, `@angular/build`) | pnpm | Event-driven |
+| CE-015 | esbuild (Angular's default Application Builder, `@angular/build`) | pnpm | Distributed System |
+| CE-016 | esbuild (Angular's default Application Builder, `@angular/build`) | bun | Monolith |
+| CE-017 | esbuild (Angular's default Application Builder, `@angular/build`) | bun | Modular Monolith |
+| CE-018 | esbuild (Angular's default Application Builder, `@angular/build`) | bun | Microservices |
+| CE-019 | esbuild (Angular's default Application Builder, `@angular/build`) | bun | Event-driven |
+| CE-020 | esbuild (Angular's default Application Builder, `@angular/build`) | bun | Distributed System |
+| CE-021 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | npm | Monolith |
+| CE-022 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | npm | Modular Monolith |
+| CE-023 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | npm | Microservices |
+| CE-024 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | npm | Event-driven |
+| CE-025 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | npm | Distributed System |
+| CE-026 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | yarn (Berry) | Monolith |
+| CE-027 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | yarn (Berry) | Modular Monolith |
+| CE-028 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | yarn (Berry) | Microservices |
+| CE-029 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | yarn (Berry) | Event-driven |
+| CE-030 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | yarn (Berry) | Distributed System |
+| CE-031 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | pnpm | Monolith |
+| CE-032 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | pnpm | Modular Monolith |
+| CE-033 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | pnpm | Microservices |
+| CE-034 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | pnpm | Event-driven |
+| CE-035 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | pnpm | Distributed System |
+| CE-036 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | bun | Monolith |
+| CE-037 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | bun | Modular Monolith |
+| CE-038 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | bun | Microservices |
+| CE-039 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | bun | Event-driven |
+| CE-040 | Vite (esbuild used instead — not a real standalone Angular 20 bundler; see branch README) | bun | Distributed System |
+| CE-041 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | npm | Monolith |
+| CE-042 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | npm | Modular Monolith |
+| CE-043 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | npm | Microservices |
+| CE-044 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | npm | Event-driven |
+| CE-045 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | npm | Distributed System |
+| CE-046 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | yarn (Berry) | Monolith |
+| CE-047 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | yarn (Berry) | Modular Monolith |
+| CE-048 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | yarn (Berry) | Microservices |
+| CE-049 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | yarn (Berry) | Event-driven |
+| CE-050 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | yarn (Berry) | Distributed System |
+| CE-051 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | pnpm | Monolith |
+| CE-052 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | pnpm | Modular Monolith |
+| CE-053 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | pnpm | Microservices |
+| CE-054 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | pnpm | Event-driven |
+| CE-055 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | pnpm | Distributed System |
+| CE-056 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | bun | Monolith |
+| CE-057 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | bun | Modular Monolith |
+| CE-058 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | bun | Microservices |
+| CE-059 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | bun | Event-driven |
+| CE-060 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | bun | Distributed System |
+
+`main` holds only this README. All runnable code lives on the
+`CE-A*` and `CE-0*` branches — check out the branch you need and read
+its README for exact run commands and any caveats specific to that
+combination.
