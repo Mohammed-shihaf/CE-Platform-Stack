@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-A5
+# CE-Platform-Stack — branch CE-A6
 
 Testbed reference repo for validating a code-scanning platform against
 a locked microservices tech stack. See the `main` branch README for
@@ -6,40 +6,42 @@ the full repo purpose and the six-branch matrix. This branch:
 
 | Bundler | Package Manager | Architecture note |
 |---|---|---|
-| Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | npm | Microservices |
+| Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | pnpm | Distributed System |
 
-Only the bundler changed relative to CE-A1: `frontend/angular.json`
-now points `architect.build` / `architect.serve` /
-`architect.extract-i18n` at `@angular-devkit/build-angular`'s legacy
-Webpack-based builders (`browser`, `dev-server`, `extract-i18n`)
-instead of the esbuild `@angular/build:application` builder, and
-`@angular-devkit/build-angular` was added as a devDependency. No
-backend code, proto contract, or business logic changed — everything
-in `/backend-service-a`, `/backend-service-b`, and `/shared/proto` is
-identical to CE-A1. See CE-A1's README for the full technology list,
-run instructions, and configuration reference; only the frontend build
-step differs here.
+Branched from CE-A5 (Webpack + npm). Only the package manager changed:
+`package-lock.json` was removed from `frontend`, `backend-service-a`,
+and `backend-service-b`, and each was reinstalled with `pnpm install`,
+producing `pnpm-lock.yaml` lockfiles. Because pnpm sandboxes
+dependency postinstall scripts by default, each `package.json` also
+gained a `pnpm.onlyBuiltDependencies` allowlist (`esbuild`,
+`@parcel/watcher`, `lmdb`, `msgpackr-extract` for the frontend;
+`mongodb-memory-server`, `protobufjs` for the backends) so those
+scripts still run — without it, esbuild's native binary (used
+internally even by the Webpack builder pipeline) would not be built
+and the toolchain would fail. No application code, proto contract, or
+builder configuration changed relative to CE-A5. The "architecture
+note" (Distributed System vs. CE-A5's Microservices) is documentation
+only and does not correspond to any code difference.
 
-## Frontend build (Webpack)
+## Install & build
 
 ```bash
-cd frontend
-npm install
-npx ng build          # @angular-devkit/build-angular:browser (Webpack)
-npx ng serve           # dev server on http://localhost:4200
+cd frontend && pnpm install && pnpm exec ng build
+cd backend-service-a && pnpm install && pnpm run check
+cd backend-service-b && pnpm install && pnpm run check
 ```
 
-Verified in the build sandbox: `npx ng build` completes successfully
-and produces a hashed Webpack bundle (`main.<hash>.js`,
-`polyfills.<hash>.js`, `runtime.<hash>.js`, `styles.<hash>.css`) under
-`frontend/dist/frontend`.
+Verified in the build sandbox: `pnpm install` succeeds for all three
+packages (build scripts approved via `pnpm.onlyBuiltDependencies`),
+and `pnpm exec ng build` produces the same hashed Webpack bundle
+(`main.<hash>.js`, `polyfills.<hash>.js`, `runtime.<hash>.js`,
+`styles.<hash>.css`) under `frontend/dist/frontend`.
 
-## Backend services
+## Run it / backend wiring
 
-Unchanged from CE-A1 — see that branch's README for run commands,
-the gRPC/Mongo/Elasticsearch/SNS/SES wiring, `docker-compose.yml`, and
-the honest note about which parts were verified against real infra in
-the build sandbox (no Docker daemon was available there, so
-Elasticsearch/SNS/SES were verified as real, correctly-wired SDK calls
-rather than exercised against live containers; the REST → MongoDB →
-gRPC path was verified fully end-to-end against a real MongoDB binary).
+Unchanged from CE-A1 — see that branch's README for run commands
+(`pnpm start` in each backend package, `pnpm exec ng serve` for the
+frontend), the gRPC/Mongo/Elasticsearch/SNS/SES wiring,
+`docker-compose.yml`, and the honest note about what was verified
+against real infrastructure in the build sandbox (no Docker daemon was
+available there).

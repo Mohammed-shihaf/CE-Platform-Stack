@@ -22,5 +22,11 @@
   },
   "devDependencies": {
     "mongodb-memory-server": "^10.1.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "mongodb-memory-server",
+      "protobufjs"
+    ]
   }
 }
