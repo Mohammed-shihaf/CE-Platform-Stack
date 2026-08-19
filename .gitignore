@@ -5,8 +5,7 @@ dist/
 .env
 .DS_Store
 coverage/
-**/.yarn/install-state.gz
-**/.yarn/cache/
-**/.yarn/unplugged/
-**/.yarn/build-state.yml
-.pnp.*
+.nyc_output/
+reports/
+.stryker-tmp/
+.yarn/install-state.gz
