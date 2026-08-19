@@ -11,7 +11,11 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "check": "node -c src/server.js"
+    "check": "node -c src/server.js",
+    "lint": "eslint src/ test/",
+    "test": "mocha test/**/*.test.js",
+    "coverage": "nyc --reporter=cobertura mocha 'test/**/*.test.js'",
+    "mutation": "stryker run"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.11.3",
@@ -21,7 +25,14 @@
     "mongoose": "^8.7.0"
   },
   "devDependencies": {
-    "mongodb-memory-server": "^10.1.2"
+    "mongodb-memory-server": "^10.1.2",
+    "@stryker-mutator/core": "^8.6.0",
+    "@stryker-mutator/mocha-runner": "^8.6.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-sonarjs": "0.25.1",
+    "mocha": "^10.7.3",
+    "nyc": "^17.1.0"
   },
   "trustedDependencies": [
     "protobufjs"
