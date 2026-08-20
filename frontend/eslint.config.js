@@ -7,6 +7,9 @@ const sonarjs = require('eslint-plugin-sonarjs');
 
 module.exports = tseslint.config(
   {
+    ignores: ['coverage/**', 'reports/**', '.stryker-tmp/**', 'dist/**'],
+  },
+  {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,

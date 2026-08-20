@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "mutation": "stryker run"
   },
   "prettier": {
     "printWidth": 100,
@@ -50,6 +51,9 @@
     "eslint": "^8.57.1",
     "eslint-plugin-security": "^4.0.1",
     "eslint-plugin-sonarjs": "^1.0.4",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "@stryker-mutator/core": "10.0.0",
+    "@stryker-mutator/karma-runner": "10.0.0",
+    "@stryker-mutator/typescript-checker": "10.0.0"
   }
 }
