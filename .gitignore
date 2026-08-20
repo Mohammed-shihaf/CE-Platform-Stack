@@ -5,3 +5,6 @@ dist/
 .env
 .DS_Store
 coverage/
+.nyc_output/
+reports/
+.stryker-tmp/
