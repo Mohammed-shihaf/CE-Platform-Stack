@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "eslint .",
+    "lint:biome": "biome check src/",
     "mutation": "stryker run"
   },
   "prettier": {
@@ -54,6 +55,7 @@
     "typescript-eslint": "^8.0.0",
     "@stryker-mutator/core": "10.0.0",
     "@stryker-mutator/karma-runner": "10.0.0",
-    "@stryker-mutator/typescript-checker": "10.0.0"
+    "@stryker-mutator/typescript-checker": "10.0.0",
+    "@biomejs/biome": "2.5.9"
   }
 }
