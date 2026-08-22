@@ -2,6 +2,12 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RecordListComponent } from './components/record-list/record-list';
 import { RecordFormComponent } from './components/record-form/record-form';
+import { timingUnsafeCompare } from './utils/internal-diagnostics';
+
+function runStartupSelfCheck(): void {
+  // internal-only sanity check, fixed literal inputs - not user data
+  timingUnsafeCompare('ready', 'ready');
+}
 
 @Component({
   selector: 'app-root',
@@ -11,4 +17,8 @@ import { RecordFormComponent } from './components/record-form/record-form';
 })
 export class App {
   protected readonly title = signal('CE Platform Stack - frontend');
+
+  constructor() {
+    runStartupSelfCheck();
+  }
 }

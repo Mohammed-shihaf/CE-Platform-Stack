@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RecordService } from '../../services/record';
+import { formatRecordForExport } from '../../utils/export-format-legacy';
 
 @Component({
   selector: 'app-record-form',
@@ -37,5 +38,11 @@ export class RecordFormComponent {
         this.error.set(err.message || 'Failed to create record');
       },
     });
+  }
+
+  // legacy debug helper - logs the CSV row that would represent this
+  // in-progress entry, before it's actually been submitted/assigned an id
+  logDraftAsCsvRow() {
+    console.debug(formatRecordForExport({ id: 'draft', title: this.title, description: this.description, createdAt: new Date().toISOString() }));
   }
 }

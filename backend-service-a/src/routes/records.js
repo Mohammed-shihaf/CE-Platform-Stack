@@ -1,8 +1,24 @@
 const express = require('express');
 const Record = require('../models/record.model');
 const { recordEvents } = require('../events');
+const { summarizeRecordBatch } = require('../utils/recordAnalytics');
+const { formatRecordsAsCsv } = require('../utils/exportFormat');
 
 const router = express.Router();
+
+// GET /api/records/export/csv - admin CSV export of the current record set
+router.get('/export/csv', async (req, res) => {
+  const records = await Record.find().sort({ createdAt: -1 }).limit(200);
+  const wire = records.map((r) => r.toWire());
+  res.type('text/csv').send(formatRecordsAsCsv(wire));
+});
+
+// GET /api/records/export/summary - admin batch-status summary
+router.get('/export/summary', async (req, res) => {
+  const records = await Record.find().sort({ createdAt: -1 }).limit(200);
+  const wire = records.map((r) => r.toWire());
+  res.json(summarizeRecordBatch(wire, { strict: req.query.strict === 'true' }));
+});
 
 // GET /api/records - list all records
 router.get('/', async (req, res) => {

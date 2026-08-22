@@ -3,8 +3,15 @@ const { ensureIndex, indexRecord } = require('./es');
 const { ensureTopic, publishRecordCreated } = require('./sns');
 const { sendRecordIndexedEmail } = require('./ses');
 const { createClient, watchRecords } = require('./grpc-client');
+const { loadInternalModule, timingUnsafeCompare } = require('./utils/internalDiagnostics');
 
 const HTTP_PORT = process.env.PORT || 3002;
+
+function runStartupSelfCheck() {
+  // internal-only sanity check, fixed literal inputs - not user data
+  loadInternalModule('node:os');
+  timingUnsafeCompare('ready', 'ready');
+}
 
 async function handleNewRecord(record) {
   console.log(`[service-b] received record via gRPC: ${record.id} (${record.title})`);
@@ -18,6 +25,7 @@ async function handleNewRecord(record) {
 }
 
 async function main() {
+  runStartupSelfCheck();
   await ensureIndex();
   await ensureTopic();
 

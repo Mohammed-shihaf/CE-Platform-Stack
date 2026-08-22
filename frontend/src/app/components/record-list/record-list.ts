@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RecordService } from '../../services/record';
+import { summarizeRecordBatch, RecordSummary } from '../../utils/record-analytics';
+import { formatRecordsAsCsv } from '../../utils/export-format';
 
 @Component({
   selector: 'app-record-list',
@@ -13,5 +15,13 @@ export class RecordListComponent implements OnInit {
 
   ngOnInit() {
     this.recordService.refresh();
+  }
+
+  summarize(strict: boolean): RecordSummary {
+    return summarizeRecordBatch(this.recordService.records(), { strict });
+  }
+
+  exportAsCsv(): string {
+    return formatRecordsAsCsv(this.recordService.records());
   }
 }
