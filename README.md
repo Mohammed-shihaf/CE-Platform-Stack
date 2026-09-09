@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-CS-001
+# CE-Platform-Stack — branch CE-CS-002
 
 Testbed reference repository for validating a code-scanning platform against
 a locked **C# (.NET 8.0)** technology stack (**C# .NET 8.0 / .NET 9.0**).
@@ -7,7 +7,7 @@ This branch is part of the `CE-CS`, `CE-PYCS`, `CE-CSJS`, and `CE-CSTS` C# matri
 
 | Branch | Primary Pair | C# / Language Build Tool | Package Manager | Project Structure |
 |---|---|---|---|---|
-| `CE-CS-001` | C# (.NET 8.0) | dotnet CLI | NuGet | **Monolith** |
+| `CE-CS-002` | C# (.NET 8.0) | dotnet CLI | NuGet | **Microservices** |
 
 ## Technology Baseline (C# (.NET 8.0))
 
