@@ -1,15 +1,15 @@
-# CE-Platform-Stack — branch CE-PYCS-005
+# CE-Platform-Stack — branch CE-CSJS-001
 
 Testbed reference repository for validating a code-scanning platform against
-a locked **Python + C#** technology stack (**C# .NET 8.0 / .NET 9.0**).
+a locked **C# + Pure JavaScript** technology stack (**C# .NET 8.0 / .NET 9.0**).
 
 This branch is part of the `CE-CS`, `CE-PYCS`, `CE-CSJS`, and `CE-CSTS` C# matrices:
 
 | Branch | Primary Pair | C# / Language Build Tool | Package Manager | Project Structure |
 |---|---|---|---|---|
-| `CE-PYCS-005` | Python + C# | uv / Nuke | npm esbuild / NuGet | **Microservices** |
+| `CE-CSJS-001` | C# + Pure JavaScript | dotnet CLI | npm | **Monolith** |
 
-## Technology Baseline (Python + C#)
+## Technology Baseline (C# + Pure JavaScript)
 
 All core technologies are genuinely wired and exercised on this branch:
 - **C# Service A**: .NET 8.0 / .NET 9.0, ASP.NET Core Kestrel Web Server, `Grpc.AspNetCore` (gRPC Server), MongoDB ORM (`MongoDB.Driver`), Security Code Scan Roslyn Analyzers
