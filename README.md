@@ -177,10 +177,28 @@ It evaluates 5 Python build tool stacks (`setuptools`, `poetry`, `hatch`, `flit`
 | CE-JS-009 | Node.js 22 JavaScript | npm (esbuild/vite) | Monolith | Node.js 22 JS + esbuild bundler single workspace |
 | CE-JS-010 | Node.js 22 JavaScript | npm (esbuild/vite) | Microservices | Decoupled JS Service A (esbuild) + JS Service B (esbuild) |
 
+### Python + Pure JavaScript Dual-Language Matrix (CE-PYJS-001..CE-PYJS-010)
+
+`CE-PYJS-001` through `CE-PYJS-010` extend `CE-Platform-Stack` with a **Python 3.11+ + Pure JavaScript (Node.js 22 ES2022 / Bun)** dual-language microservices matrix evaluated across 5 Python build tool stacks (`setuptools`, `poetry`, `hatch`, `flit`, `uv`) x 5 JS package managers (`npm`, `pnpm`, `yarn Berry`, `bun`, `npm esbuild`) and 2 core project structures (**Monolith** and **Microservices**):
+
+| Branch | Python Build Tool | JS Package Manager | Project Structure | Composition |
+|---|---|---|---|---|
+| CE-PYJS-001 | setuptools | npm | Monolith | Python (FastAPI/gRPC) + Pure JS (Node/Express) single workspace |
+| CE-PYJS-002 | setuptools | npm | Microservices | Decoupled Python Service A + Pure JS Service B + JS Frontend |
+| CE-PYJS-003 | poetry | pnpm | Monolith | Python (Poetry) + Pure JS (pnpm workspace) single workspace |
+| CE-PYJS-004 | poetry | pnpm | Microservices | Decoupled Python Service A (Poetry) + Pure JS Service B (pnpm) |
+| CE-PYJS-005 | hatch | yarn (Berry) | Monolith | Python (Hatchling) + Pure JS (Yarn Berry) single workspace |
+| CE-PYJS-006 | hatch | yarn (Berry) | Microservices | Decoupled Python Service A (Hatch) + Pure JS Service B (Yarn) |
+| CE-PYJS-007 | flit | bun | Monolith | Python (Flit) + Pure JS (Bun runtime/packager) single workspace |
+| CE-PYJS-008 | flit | bun | Microservices | Decoupled Python Service A (Flit) + Pure JS Service B (Bun) |
+| CE-PYJS-009 | uv | npm (esbuild/vite) | Monolith | Python (uv runner) + Pure JS (esbuild) single workspace |
+| CE-PYJS-010 | uv | npm (esbuild/vite) | Microservices | Decoupled Python Service A (uv) + Pure JS Service B (esbuild) |
+
 `main` holds only this README. All runnable code lives on the
-`CE-A*`, `CE-0*`, `CE-PYTS-*`, and `CE-JS-*` branches — check out the branch you need and read
+`CE-A*`, `CE-0*`, `CE-PYTS-*`, `CE-PYJS-*`, and `CE-JS-*` branches — check out the branch you need and read
 its README for exact run commands and any caveats specific to that
 combination.
+
 
 
 
