@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-PYTS-007
+# CE-Platform-Stack — branch CE-PYTS-008
 
 Testbed reference repository for validating a code-scanning platform against
 a locked dual-language microservices technology stack (**Python** + **TypeScript/JavaScript**).
@@ -7,7 +7,7 @@ This branch is part of the `CE-PYTS-001`..`CE-PYTS-010` dual-language combinatio
 
 | Branch | Python Build Tool | JS/TS Package Manager | Project Structure |
 |---|---|---|---|
-| `CE-PYTS-007` | flit | bun | **Monolith** |
+| `CE-PYTS-008` | flit | bun | **Microservices** |
 
 ## Dual-Language Technology Baseline
 
