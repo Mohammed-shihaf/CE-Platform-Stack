@@ -141,7 +141,42 @@ sibling and only changes its own README's architecture-note label.
 | CE-059 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | bun | Event-driven |
 | CE-060 | Webpack (`@angular-devkit/build-angular:browser`, the legacy builder) | bun | Distributed System |
 
+### Python + TypeScript Dual-Language Matrix (CE-PYTS-001..CE-PYTS-025)
+
+`CE-PYTS-001` through `CE-PYTS-025` extend `CE-Platform-Stack` with a **dual-language cross-product matrix** combining **Python** (FastAPI / gRPC Server) and **TypeScript** (Node.js 22 Express gRPC Client + Angular 20 Frontend).
+
+It evaluates 5 Python build tool stacks (`setuptools`, `poetry`, `hatch`, `flit`, `uv`) x 5 TypeScript package manager/bundlers (`npm`, `pnpm`, `yarn Berry`, `bun`, `npm esbuild`) x 5 target architecture patterns (`Monolith`, `Modular Monolith`, `Microservices`, `Event-driven`, `Distributed System`).
+
+| Branch | Python Build Tool | TS Package Manager | Architecture Pattern |
+|---|---|---|---|
+| CE-PYTS-001 | setuptools | npm | Monolith |
+| CE-PYTS-002 | setuptools | npm | Modular Monolith |
+| CE-PYTS-003 | setuptools | npm | Microservices |
+| CE-PYTS-004 | setuptools | npm | Event-driven |
+| CE-PYTS-005 | setuptools | npm | Distributed System |
+| CE-PYTS-006 | poetry | pnpm | Monolith |
+| CE-PYTS-007 | poetry | pnpm | Modular Monolith |
+| CE-PYTS-008 | poetry | pnpm | Microservices |
+| CE-PYTS-009 | poetry | pnpm | Event-driven |
+| CE-PYTS-010 | poetry | pnpm | Distributed System |
+| CE-PYTS-011 | hatch | yarn (Berry) | Monolith |
+| CE-PYTS-012 | hatch | yarn (Berry) | Modular Monolith |
+| CE-PYTS-013 | hatch | yarn (Berry) | Microservices |
+| CE-PYTS-014 | hatch | yarn (Berry) | Event-driven |
+| CE-PYTS-015 | hatch | yarn (Berry) | Distributed System |
+| CE-PYTS-016 | flit | bun | Monolith |
+| CE-PYTS-017 | flit | bun | Modular Monolith |
+| CE-PYTS-018 | flit | bun | Microservices |
+| CE-PYTS-019 | flit | bun | Event-driven |
+| CE-PYTS-020 | flit | bun | Distributed System |
+| CE-PYTS-021 | uv | npm (esbuild) | Monolith |
+| CE-PYTS-022 | uv | npm (esbuild) | Modular Monolith |
+| CE-PYTS-023 | uv | npm (esbuild) | Microservices |
+| CE-PYTS-024 | uv | npm (esbuild) | Event-driven |
+| CE-PYTS-025 | uv | npm (esbuild) | Distributed System |
+
 `main` holds only this README. All runnable code lives on the
-`CE-A*` and `CE-0*` branches — check out the branch you need and read
+`CE-A*`, `CE-0*`, and `CE-PYTS-*` branches — check out the branch you need and read
 its README for exact run commands and any caveats specific to that
 combination.
+
