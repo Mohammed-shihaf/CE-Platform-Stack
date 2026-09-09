@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-JS-009
+# CE-Platform-Stack — branch CE-JS-010
 
 Testbed reference repository for validating a code-scanning platform against
 a locked **Pure JavaScript** microservices technology stack.
@@ -7,7 +7,7 @@ This branch is part of the `CE-JS-001`..`CE-JS-010` dedicated JavaScript combina
 
 | Branch | Runtime / Language | JS Package Manager | Project Structure |
 |---|---|---|---|
-| `CE-JS-009` | JavaScript (Node 22) | npm (esbuild/vite) | **Monolith** |
+| `CE-JS-010` | JavaScript (Node 22) | npm (esbuild/vite) | **Microservices** |
 
 ## Pure JavaScript Technology Baseline
 
