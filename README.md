@@ -1,64 +1,54 @@
-# CE-Platform-Stack — branch CE-001
+# CE-Platform-Stack — branch CE-PYTS-001
 
-Testbed reference repo for validating a code-scanning platform against
-a locked microservices tech stack. See the `main` branch README for
-the full repo purpose and technology baseline. This branch is part of
-the CE-001..CE-060 full combination matrix (bundler x package manager x
-architecture note, 3x4x5). This branch:
+Testbed reference repository for validating a code-scanning platform against
+a locked dual-language microservices technology stack (**Python** + **TypeScript**).
+See the `main` branch README for the full repository purpose and baseline.
 
-| Bundler | Package Manager | Architecture note |
-|---|---|---|
-| esbuild (Angular's default Application Builder, `@angular/build`) | npm | Monolith |
+This branch is part of the `CE-PYTS-001`..`CE-PYTS-025` Python + TypeScript combination matrix (5 build tools x 5 package managers x 5 architecture patterns):
 
-All seven locked technologies are genuinely wired and exercised:
-Angular 20, Node.js 22, MongoDB 8, Elasticsearch 8, SNS (via LocalStack),
-gRPC (`@grpc/grpc-js` + `@grpc/proto-loader`), SES (via LocalStack).
-No application code, proto contract, or business logic changed
-relative to CE-A1 — this branch's code and dependency tree are
-identical to branch `CE-A1` (same bundler + package manager
-combination); only this README's architecture-note label differs.
-The architecture note is a documentation label only, per the same
-pattern used on every CE-A*/CE-0* branch — it does not change the
-actual code structure (still REST → MongoDB → gRPC → Elasticsearch /
-SNS / SES, as described in the `main` README).
+| Branch | Python Build Tool | TS Package Manager | Architecture Pattern |
+|---|---|---|---|
+| `CE-PYTS-001` | setuptools | npm | Monolith |
 
+## Dual-Language Technology Baseline
 
-## Install & build
+All eight locked technologies are genuinely wired and exercised on this branch:
+- **Backend Service A (Python)**: Python 3.11+, FastAPI (REST API), `grpcio` (gRPC Server), MongoDB 8 (`pymongo`)
+- **Backend Service B (TypeScript)**: Node.js 22, Express, `@grpc/grpc-js` (gRPC Client), Elasticsearch 8, AWS SNS (LocalStack), AWS SES (LocalStack)
+- **Frontend (TypeScript)**: Angular 20 SPA
+- **Database**: MongoDB 8 (Docker container `ce-mongo`)
+- **Search**: Elasticsearch 8 (Docker container `ce-elasticsearch`)
+- **Queue & Mail**: AWS SNS + AWS SES (LocalStack container `ce-localstack`)
+- **Inter-service Protocol**: gRPC (`shared/proto/record.proto`)
 
-```bash
-cd frontend && npm install && npx ng build
-cd backend-service-a && npm install && npm run check
-cd backend-service-b && npm install && npm run check
+## Repository Structure
+
+```
+/frontend                   Angular 20 TypeScript app (REST client)
+/backend-python-service-a   Python service — gRPC server (`RecordService`), FastAPI REST API, MongoDB ORM
+/backend-service-b          TypeScript service — gRPC client (`WatchRecords` stream), Elasticsearch, SNS/SES
+/shared/proto               .proto contract defining the gRPC service between Python and TypeScript
+docker-compose.yml          Mongo 8 + Elasticsearch 8 + LocalStack (SNS/SES/SQS)
 ```
 
-Verified in the build sandbox for this branch: all three installs
-completed cleanly, and the frontend build produced an esbuild Application Builder production bundle under `frontend/dist/frontend`.
-Both backend packages' check script (`node -c`, a syntax/require-time
-check of the entry point) passed cleanly.
+## Install & Run Commands
 
-## Run it / backend wiring
+```bash
+# Start backend containers
+docker compose up -d
 
-Unchanged from CE-A1 — see that branch's README for run commands
-(`npm start` in each backend package, `npx ng serve`
-for the frontend), the gRPC/Mongo/Elasticsearch/SNS/SES wiring,
-`docker-compose.yml`, and the full end-to-end verification notes.
+# Start Python Service A
+cd backend-python-service-a
+python -m pip install -r requirements.txt
+python -m src.main
 
-## What was actually verified in this build sandbox
+# Start TypeScript Service B
+cd backend-service-b
+npm install
+npm start
 
-No Docker daemon is available in this sandbox, so MongoDB 8 /
-Elasticsearch 8 / LocalStack containers were not started here. What
-**was** verified directly for this specific branch: the frontend
-build succeeds and produces a real production bundle, and both
-backend services install their dependencies and pass a syntax/
-require-time check. The full MongoDB-backed gRPC end-to-end smoke
-test (`mongodb-memory-server`, a real downloaded MongoDB binary, not
-a mock) was established on CE-A1, and the deeper install-level
-verification (yarn/pnpm/bun install correctness, and the one genuine
-Webpack+bun dependency-nesting issue that was found and fixed) was
-done once per bundler+package-manager combination on branch
-`CE-A1`. It is not re-run in full on every one of the 60
-matrix branches for sandbox time reasons — this branch's only diff
-from `CE-A1` is the architecture-note text in this README, so
-nothing in the diff touches the backend runtime path that test
-exercises or the install mechanics already verified on the base
-branch.
+# Start Angular Frontend
+cd frontend
+npm install
+npx ng serve
+```
