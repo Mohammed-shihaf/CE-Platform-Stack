@@ -160,9 +160,27 @@ It evaluates 5 Python build tool stacks (`setuptools`, `poetry`, `hatch`, `flit`
 | CE-PYTS-009 | uv | npm (esbuild/vite) | Monolith | Python (uv runner) + TS (esbuild) single workspace |
 | CE-PYTS-010 | uv | npm (esbuild/vite) | Microservices | Decoupled Python Service A (uv) + TS Service B (esbuild) + Angular TS Frontend |
 
+### Pure JavaScript Matrix (CE-JS-001..CE-JS-010)
+
+`CE-JS-001` through `CE-JS-010` extend `CE-Platform-Stack` with a dedicated **Pure JavaScript matrix** (Node.js 22 / Bun ES2022 JavaScript gRPC microservices + Angular frontend) evaluated across 5 top JS package managers/bundlers (`npm`, `pnpm`, `yarn Berry`, `bun`, `npm esbuild`) and 2 core project structures (**Monolith** and **Microservices**):
+
+| Branch | JS Runtime / Stack | JS Package Manager | Project Structure | Composition |
+|---|---|---|---|---|
+| CE-JS-001 | Node.js 22 JavaScript | npm | Monolith | Node.js 22 JS gRPC Server & Client + Angular Frontend single workspace |
+| CE-JS-002 | Node.js 22 JavaScript | npm | Microservices | Decoupled JS Service A + JS Service B + Angular Frontend |
+| CE-JS-003 | Node.js 22 JavaScript | pnpm | Monolith | Node.js 22 JS (pnpm workspace) single workspace |
+| CE-JS-004 | Node.js 22 JavaScript | pnpm | Microservices | Decoupled JS Service A (pnpm) + JS Service B (pnpm) |
+| CE-JS-005 | Node.js 22 JavaScript | yarn (Berry) | Monolith | Node.js 22 JS (Yarn Berry workspace) single workspace |
+| CE-JS-006 | Node.js 22 JavaScript | yarn (Berry) | Microservices | Decoupled JS Service A (Yarn) + JS Service B (Yarn) |
+| CE-JS-007 | Bun 1.1 JavaScript | bun | Monolith | Bun JS runtime/packager single workspace |
+| CE-JS-008 | Bun 1.1 JavaScript | bun | Microservices | Decoupled Bun JS Service A + Bun JS Service B |
+| CE-JS-009 | Node.js 22 JavaScript | npm (esbuild/vite) | Monolith | Node.js 22 JS + esbuild bundler single workspace |
+| CE-JS-010 | Node.js 22 JavaScript | npm (esbuild/vite) | Microservices | Decoupled JS Service A (esbuild) + JS Service B (esbuild) |
+
 `main` holds only this README. All runnable code lives on the
-`CE-A*`, `CE-0*`, and `CE-PYTS-*` branches — check out the branch you need and read
+`CE-A*`, `CE-0*`, `CE-PYTS-*`, and `CE-JS-*` branches — check out the branch you need and read
 its README for exact run commands and any caveats specific to that
 combination.
+
 
 
