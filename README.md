@@ -194,10 +194,51 @@ It evaluates 5 Python build tool stacks (`setuptools`, `poetry`, `hatch`, `flit`
 | CE-PYJS-009 | uv | npm (esbuild/vite) | Monolith | Python (uv runner) + Pure JS (esbuild) single workspace |
 | CE-PYJS-010 | uv | npm (esbuild/vite) | Microservices | Decoupled Python Service A (uv) + Pure JS Service B (esbuild) |
 
+### C# (.NET 8.0 / .NET 9.0) Standalone & Dual-Language Matrices (CE-CS, CE-PYCS, CE-CSJS, CE-CSTS)
+
+The C# branches evaluate **.NET 8.0 / .NET 9.0** ASP.NET Core Kestrel gRPC microservices, Roslyn Analyzers (`SecurityCodeScan.VS2019`), and planted white-box analysis fixtures across 5 C# build tools (`dotnet CLI`, `MSBuild`, `Cake`, `Nuke`, `CPM`) and 5 package managers (`NuGet`, `Paket`, `npm`, `pnpm`, `yarn Berry`, `bun`):
+
+#### Standalone C# Matrix (CE-CS-001..CE-CS-005)
+| Branch | Runtime | Build Tool | Package Manager | Structure | Composition |
+|---|---|---|---|---|---|
+| CE-CS-001 | .NET 8.0 | dotnet CLI | NuGet | Monolith | C# ASP.NET Core gRPC Server & Client + Mongo + Angular single solution |
+| CE-CS-002 | .NET 8.0 | dotnet CLI | NuGet | Microservices | Decoupled C# Service A + C# Service B + Angular Frontend |
+| CE-CS-003 | .NET 9.0 | MSBuild | CPM (Directory.Packages.props) | Monolith | Modular Clean Architecture .NET 9 solution |
+| CE-CS-004 | .NET 8.0 | Cake (C# Make) | Paket | Microservices | C# Cake build script + Paket dependency lock |
+| CE-CS-005 | .NET 9.0 | Nuke | NuGet | Microservices | Strongly-typed Nuke build system + C# gRPC Mesh |
+
+#### Python + C# Dual-Language Matrix (CE-PYCS-001..CE-PYCS-005)
+| Branch | Primary Pair | Python Build Tool | C# Build Tool | Structure | Composition |
+|---|---|---|---|---|---|
+| CE-PYCS-001 | Python + C# | setuptools | dotnet CLI | Monolith | Python (FastAPI/gRPC) + C# ASP.NET Core gRPC single workspace |
+| CE-PYCS-002 | Python + C# | setuptools | dotnet CLI | Microservices | Decoupled Python Service A + C# Service B + Angular Frontend |
+| CE-PYCS-003 | Python + C# | poetry | MSBuild | Monolith | Python (Poetry) + C# (MSBuild) single workspace |
+| CE-PYCS-004 | Python + C# | flit | Cake | Microservices | Decoupled Python Service A (Flit) + C# Service B (Cake) |
+| CE-PYCS-005 | Python + C# | uv | Nuke | Microservices | Decoupled Python Service A (uv) + C# Service B (Nuke) |
+
+#### C# + Pure JavaScript Dual-Language Matrix (CE-CSJS-001..CE-CSJS-005)
+| Branch | Primary Pair | C# Build Tool | JS Package Manager | Structure | Composition |
+|---|---|---|---|---|---|
+| CE-CSJS-001 | C# + Pure JS | dotnet CLI | npm | Monolith | C# ASP.NET Core gRPC Server + Node.js 22 JS Client single workspace |
+| CE-CSJS-002 | C# + Pure JS | dotnet CLI | npm | Microservices | Decoupled C# Service A + Pure JS Service B + JS Frontend |
+| CE-CSJS-003 | C# + Pure JS | MSBuild | pnpm | Monolith | C# MSBuild + Node.js 22 JS (pnpm workspace) |
+| CE-CSJS-004 | C# + Pure JS | Cake | yarn (Berry) | Microservices | Decoupled C# Service A (Cake) + Pure JS Service B (Yarn) |
+| CE-CSJS-005 | C# + Pure JS | Nuke | bun | Microservices | Decoupled C# Service A (Nuke) + Pure JS Service B (Bun) |
+
+#### C# + TypeScript Dual-Language Matrix (CE-CSTS-001..CE-CSTS-005)
+| Branch | Primary Pair | C# Build Tool | TS Package Manager | Structure | Composition |
+|---|---|---|---|---|---|
+| CE-CSTS-001 | C# + TypeScript | dotnet CLI | npm | Monolith | C# ASP.NET Core gRPC Server + Node.js 22 TS Client + Angular TS single workspace |
+| CE-CSTS-002 | C# + TypeScript | dotnet CLI | npm | Microservices | Decoupled C# Service A + TS Service B + Angular TS Frontend |
+| CE-CSTS-003 | C# + TypeScript | MSBuild | pnpm | Monolith | C# MSBuild + TS (pnpm workspace) |
+| CE-CSTS-004 | C# + TypeScript | Cake | yarn (Berry) | Microservices | Decoupled C# Service A (Cake) + TS Service B (Yarn) + Angular TS Frontend |
+| CE-CSTS-005 | C# + TypeScript | Nuke | bun | Microservices | Decoupled C# Service A (Nuke) + TS Service B (Bun) + Angular TS Frontend |
+
 `main` holds only this README. All runnable code lives on the
-`CE-A*`, `CE-0*`, `CE-PYTS-*`, `CE-PYJS-*`, and `CE-JS-*` branches — check out the branch you need and read
+`CE-A*`, `CE-0*`, `CE-PYTS-*`, `CE-PYJS-*`, `CE-JS-*`, `CE-CS-*`, `CE-PYCS-*`, `CE-CSJS-*`, and `CE-CSTS-*` branches — check out the branch you need and read
 its README for exact run commands and any caveats specific to that
 combination.
+
 
 
 
