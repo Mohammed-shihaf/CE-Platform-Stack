@@ -9,13 +9,133 @@ rows = []
 VER_NODE = "Node.js 22.0.0+"
 VER_BUN = "Bun 1.1.x"
 VER_PYTHON = "Python 3.11+"
+VER_CS8 = "C# / .NET 8.0 (LTS)"
+VER_CS9 = "C# / .NET 9.0 (STS)"
 VER_ANGULAR = "Angular 20.0.0"
 VER_MONGO = "MongoDB 8.0 (mongo:8)"
 VER_ES = "Elasticsearch 8.15.3"
 VER_AWS = "LocalStack 3.0 (SNS/SES/SQS)"
-VER_GRPC = "@grpc/grpc-js 1.11.3 / grpcio 1.62.0"
+VER_GRPC = "@grpc/grpc-js 1.11.3 / Grpc.AspNetCore 2.60.0"
 
-# 1. Python + Pure JavaScript Dual-Language Matrix (CE-PYJS-001 .. CE-PYJS-010)
+# 1. Standalone C# Matrix (CE-CS-001 .. CE-CS-005)
+cs_matrix = [
+    ("CE-CS-001", "C# Standalone Matrix", VER_CS8, "dotnet CLI (v8.0)", "NuGet", "Monolith", "C# ASP.NET Core gRPC Server & Client + Mongo + Angular single solution"),
+    ("CE-CS-002", "C# Standalone Matrix", VER_CS8, "dotnet CLI (v8.0)", "NuGet", "Microservices", "Decoupled C# Service A + C# Service B + Angular Frontend"),
+    ("CE-CS-003", "C# Standalone Matrix", VER_CS9, "MSBuild (v17.0)", "CPM (Directory.Packages.props)", "Monolith", "Modular Clean Architecture .NET 9 solution"),
+    ("CE-CS-004", "C# Standalone Matrix", VER_CS8, "Cake (C# Make v4.0)", "Paket (v8.0)", "Microservices", "C# Cake build script + Paket dependency lock"),
+    ("CE-CS-005", "C# Standalone Matrix", VER_CS9, "Nuke (v8.0)", "NuGet", "Microservices", "Strongly-typed Nuke build system + C# gRPC Mesh"),
+]
+
+for b, grp, cs_ver, build_tool, pkg_mgr, arch, desc in cs_matrix:
+    rows.append({
+        "Branch": b,
+        "Matrix Group": grp,
+        "Primary Language": "C# (.NET)",
+        "Python Runtime Version": "N/A",
+        "JS/TS Runtime Version": VER_NODE,
+        "Python Build Tool & Version": "N/A",
+        "C# / Language Build Tool": build_tool,
+        "JS/TS Package Manager & Version": pkg_mgr,
+        "Frontend Framework Version": VER_ANGULAR,
+        "Database Version": VER_MONGO,
+        "Search Engine Version": VER_ES,
+        "Queue & Email Service Version": VER_AWS,
+        "gRPC Protocol Version": VER_GRPC,
+        "Project Structure": arch,
+        "GitHub Branch URL": f"{BASE_URL}{b}",
+        "Description": desc
+    })
+
+# 2. Python + C# Dual-Language Matrix (CE-PYCS-001 .. CE-PYCS-005)
+pycs_matrix = [
+    ("CE-PYCS-001", "Python + C# Dual-Language", "setuptools (v69.0) / dotnet CLI", "npm / NuGet", "Monolith", "Python (FastAPI/gRPC) + C# ASP.NET Core gRPC single workspace"),
+    ("CE-PYCS-002", "Python + C# Dual-Language", "setuptools (v69.0) / dotnet CLI", "npm / NuGet", "Microservices", "Decoupled Python Service A + C# Service B + Angular Frontend"),
+    ("CE-PYCS-003", "Python + C# Dual-Language", "poetry (v1.8) / MSBuild", "pnpm / Paket", "Monolith", "Python (Poetry) + C# (MSBuild) single workspace"),
+    ("CE-PYCS-004", "Python + C# Dual-Language", "flit_core (v3.9) / Cake", "bun / NuGet", "Microservices", "Decoupled Python Service A (Flit) + C# Service B (Cake)"),
+    ("CE-PYCS-005", "Python + C# Dual-Language", "uv (v0.1.0+) / Nuke", "npm esbuild / NuGet", "Microservices", "Decoupled Python Service A (uv) + C# Service B (Nuke)"),
+]
+
+for b, grp, build_tool, pkg_mgr, arch, desc in pycs_matrix:
+    rows.append({
+        "Branch": b,
+        "Matrix Group": grp,
+        "Primary Language": "Python + C#",
+        "Python Runtime Version": VER_PYTHON,
+        "JS/TS Runtime Version": VER_NODE,
+        "Python Build Tool & Version": build_tool,
+        "C# / Language Build Tool": build_tool,
+        "JS/TS Package Manager & Version": pkg_mgr,
+        "Frontend Framework Version": VER_ANGULAR,
+        "Database Version": VER_MONGO,
+        "Search Engine Version": VER_ES,
+        "Queue & Email Service Version": VER_AWS,
+        "gRPC Protocol Version": VER_GRPC,
+        "Project Structure": arch,
+        "GitHub Branch URL": f"{BASE_URL}{b}",
+        "Description": desc
+    })
+
+# 3. C# + Pure JavaScript Dual-Language Matrix (CE-CSJS-001 .. CE-CSJS-005)
+csjs_matrix = [
+    ("CE-CSJS-001", "C# + Pure JavaScript Dual-Language", "dotnet CLI", "npm (v10.x)", "Monolith", "C# ASP.NET Core gRPC Server + Node.js 22 JS Client single workspace"),
+    ("CE-CSJS-002", "C# + Pure JavaScript Dual-Language", "dotnet CLI", "npm (v10.x)", "Microservices", "Decoupled C# Service A + Pure JS Service B + JS Frontend"),
+    ("CE-CSJS-003", "C# + Pure JavaScript Dual-Language", "MSBuild", "pnpm (v9.x)", "Monolith", "C# MSBuild + Node.js 22 JS (pnpm workspace)"),
+    ("CE-CSJS-004", "C# + Pure JavaScript Dual-Language", "Cake", "yarn Berry (v4.x)", "Microservices", "Decoupled C# Service A (Cake) + Pure JS Service B (Yarn)"),
+    ("CE-CSJS-005", "C# + Pure JavaScript Dual-Language", "Nuke", "bun (v1.1.x)", "Microservices", "Decoupled C# Service A (Nuke) + Pure JS Service B (Bun)"),
+]
+
+for b, grp, build_tool, pkg_mgr, arch, desc in csjs_matrix:
+    runtime = VER_BUN if "bun" in pkg_mgr else VER_NODE
+    rows.append({
+        "Branch": b,
+        "Matrix Group": grp,
+        "Primary Language": "C# + Pure JavaScript",
+        "Python Runtime Version": "N/A",
+        "JS/TS Runtime Version": runtime,
+        "Python Build Tool & Version": "N/A",
+        "C# / Language Build Tool": build_tool,
+        "JS/TS Package Manager & Version": pkg_mgr,
+        "Frontend Framework Version": VER_ANGULAR,
+        "Database Version": VER_MONGO,
+        "Search Engine Version": VER_ES,
+        "Queue & Email Service Version": VER_AWS,
+        "gRPC Protocol Version": VER_GRPC,
+        "Project Structure": arch,
+        "GitHub Branch URL": f"{BASE_URL}{b}",
+        "Description": desc
+    })
+
+# 4. C# + TypeScript Dual-Language Matrix (CE-CSTS-001 .. CE-CSTS-005)
+csts_matrix = [
+    ("CE-CSTS-001", "C# + TypeScript Dual-Language", "dotnet CLI", "npm (v10.x)", "Monolith", "C# ASP.NET Core gRPC Server + Node.js 22 TS Client + Angular TS single workspace"),
+    ("CE-CSTS-002", "C# + TypeScript Dual-Language", "dotnet CLI", "npm (v10.x)", "Microservices", "Decoupled C# Service A + TS Service B + Angular TS Frontend"),
+    ("CE-CSTS-003", "C# + TypeScript Dual-Language", "MSBuild", "pnpm (v9.x)", "Monolith", "C# MSBuild + TS (pnpm workspace)"),
+    ("CE-CSTS-004", "C# + TypeScript Dual-Language", "Cake", "yarn Berry (v4.x)", "Microservices", "Decoupled C# Service A (Cake) + TS Service B (Yarn) + Angular TS Frontend"),
+    ("CE-CSTS-005", "C# + TypeScript Dual-Language", "Nuke", "bun (v1.1.x)", "Microservices", "Decoupled C# Service A (Nuke) + TS Service B (Bun) + Angular TS Frontend"),
+]
+
+for b, grp, build_tool, pkg_mgr, arch, desc in csts_matrix:
+    runtime = VER_BUN if "bun" in pkg_mgr else VER_NODE
+    rows.append({
+        "Branch": b,
+        "Matrix Group": grp,
+        "Primary Language": "C# + TypeScript",
+        "Python Runtime Version": "N/A",
+        "JS/TS Runtime Version": runtime,
+        "Python Build Tool & Version": "N/A",
+        "C# / Language Build Tool": build_tool,
+        "JS/TS Package Manager & Version": pkg_mgr,
+        "Frontend Framework Version": VER_ANGULAR,
+        "Database Version": VER_MONGO,
+        "Search Engine Version": VER_ES,
+        "Queue & Email Service Version": VER_AWS,
+        "gRPC Protocol Version": VER_GRPC,
+        "Project Structure": arch,
+        "GitHub Branch URL": f"{BASE_URL}{b}",
+        "Description": desc
+    })
+
+# 5. Python + Pure JavaScript Dual-Language Matrix (CE-PYJS-001 .. CE-PYJS-010)
 pyjs_matrix = [
     ("CE-PYJS-001", "Python + Pure JavaScript", "setuptools (v69.0)", "npm (v10.x)", "Monolith", "Python (FastAPI 0.110/gRPC) + Pure JS (Node 22/Express) single workspace"),
     ("CE-PYJS-002", "Python + Pure JavaScript", "setuptools (v69.0)", "npm (v10.x)", "Microservices", "Decoupled Python Service A + Pure JS Service B + JS Frontend"),
@@ -38,6 +158,7 @@ for b, lang, py_tool, js_pkg, arch, desc in pyjs_matrix:
         "Python Runtime Version": VER_PYTHON,
         "JS/TS Runtime Version": runtime,
         "Python Build Tool & Version": py_tool,
+        "C# / Language Build Tool": "N/A",
         "JS/TS Package Manager & Version": js_pkg,
         "Frontend Framework Version": VER_ANGULAR,
         "Database Version": VER_MONGO,
@@ -49,7 +170,7 @@ for b, lang, py_tool, js_pkg, arch, desc in pyjs_matrix:
         "Description": desc
     })
 
-# 2. Python + TypeScript Dual-Language Matrix (CE-PYTS-001 .. CE-PYTS-010)
+# 6. Python + TypeScript Dual-Language Matrix (CE-PYTS-001 .. CE-PYTS-010)
 pyts_matrix = [
     ("CE-PYTS-001", "Python + TypeScript", "setuptools (v69.0)", "npm (v10.x)", "Monolith", "Python (FastAPI/gRPC) + TS (Express/Angular 20) unified workspace"),
     ("CE-PYTS-002", "Python + TypeScript", "setuptools (v69.0)", "npm (v10.x)", "Microservices", "Decoupled Python Service A + TS Service B + Angular TS Frontend"),
@@ -72,6 +193,7 @@ for b, lang, py_tool, ts_pkg, arch, desc in pyts_matrix:
         "Python Runtime Version": VER_PYTHON,
         "JS/TS Runtime Version": runtime,
         "Python Build Tool & Version": py_tool,
+        "C# / Language Build Tool": "N/A",
         "JS/TS Package Manager & Version": ts_pkg,
         "Frontend Framework Version": VER_ANGULAR,
         "Database Version": VER_MONGO,
@@ -83,7 +205,7 @@ for b, lang, py_tool, ts_pkg, arch, desc in pyts_matrix:
         "Description": desc
     })
 
-# 3. Pure JavaScript Matrix (CE-JS-001 .. CE-JS-010)
+# 7. Pure JavaScript Matrix (CE-JS-001 .. CE-JS-010)
 js_matrix = [
     ("CE-JS-001", "Pure JavaScript", "N/A", "npm (v10.x)", "Monolith", "Node.js 22 JS gRPC Server & Client + Angular Frontend single workspace"),
     ("CE-JS-002", "Pure JavaScript", "N/A", "npm (v10.x)", "Microservices", "Decoupled JS Service A + JS Service B + Angular Frontend"),
@@ -106,6 +228,7 @@ for b, lang, py_tool, ts_pkg, arch, desc in js_matrix:
         "Python Runtime Version": "N/A",
         "JS/TS Runtime Version": runtime,
         "Python Build Tool & Version": "N/A",
+        "C# / Language Build Tool": "N/A",
         "JS/TS Package Manager & Version": ts_pkg,
         "Frontend Framework Version": VER_ANGULAR,
         "Database Version": VER_MONGO,
@@ -117,7 +240,7 @@ for b, lang, py_tool, ts_pkg, arch, desc in js_matrix:
         "Description": desc
     })
 
-# 4. Original 6 Baseline Set (CE-A1..CE-A6)
+# 8. Original 6 Baseline Set (CE-A1..CE-A6)
 ce_a = [
     ("CE-A1", "Node.js + Angular", "N/A", "esbuild (@angular/build) / npm v10", "Microservices", "Angular esbuild Application Builder + npm"),
     ("CE-A2", "Node.js + Angular", "N/A", "esbuild (@angular/build) / yarn Berry v4", "Microservices", "Angular esbuild Application Builder + yarn Berry"),
@@ -136,6 +259,7 @@ for b, lang, py_tool, ts_pkg, arch, desc in ce_a:
         "Python Runtime Version": "N/A",
         "JS/TS Runtime Version": runtime,
         "Python Build Tool & Version": "N/A",
+        "C# / Language Build Tool": "N/A",
         "JS/TS Package Manager & Version": ts_pkg,
         "Frontend Framework Version": VER_ANGULAR,
         "Database Version": VER_MONGO,
@@ -147,7 +271,7 @@ for b, lang, py_tool, ts_pkg, arch, desc in ce_a:
         "Description": desc
     })
 
-# 5. CE-001..CE-060
+# 9. CE-001..CE-060
 bundlers = ["esbuild (@angular/build)", "Vite (internal esbuild)", "Webpack (@angular-devkit)"]
 pkg_mgrs = ["npm (v10.x)", "yarn Berry (v4.x)", "pnpm (v9.x)", "bun (v1.1.x)"]
 archs = ["Monolith", "Modular Monolith", "Microservices", "Event-driven", "Distributed System"]
@@ -165,6 +289,7 @@ for bundler in bundlers:
                 "Python Runtime Version": "N/A",
                 "JS/TS Runtime Version": runtime,
                 "Python Build Tool & Version": "N/A",
+                "C# / Language Build Tool": "N/A",
                 "JS/TS Package Manager & Version": f"{bundler} / {pkg}",
                 "Frontend Framework Version": VER_ANGULAR,
                 "Database Version": VER_MONGO,
@@ -180,10 +305,10 @@ for bundler in bundlers:
 csv_path = r"C:\Users\moham\.gemini\antigravity\scratch\CE-Platform-Stack-Branch-Matrix.csv"
 fieldnames = [
     "Branch", "Matrix Group", "Primary Language", "Python Runtime Version",
-    "JS/TS Runtime Version", "Python Build Tool & Version", "JS/TS Package Manager & Version",
-    "Frontend Framework Version", "Database Version", "Search Engine Version",
-    "Queue & Email Service Version", "gRPC Protocol Version", "Project Structure",
-    "GitHub Branch URL", "Description"
+    "JS/TS Runtime Version", "Python Build Tool & Version", "C# / Language Build Tool",
+    "JS/TS Package Manager & Version", "Frontend Framework Version", "Database Version",
+    "Search Engine Version", "Queue & Email Service Version", "gRPC Protocol Version",
+    "Project Structure", "GitHub Branch URL", "Description"
 ]
 
 with open(csv_path, "w", newline="", encoding="utf-8") as f:
@@ -191,4 +316,4 @@ with open(csv_path, "w", newline="", encoding="utf-8") as f:
     writer.writeheader()
     writer.writerows(rows)
 
-print(f"Generated CSV with {len(rows)} branch rows and complete version metadata at {csv_path}")
+print(f"Generated CSV with {len(rows)} branch rows including all C# matrices at {csv_path}")
