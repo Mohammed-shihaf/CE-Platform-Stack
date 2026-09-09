@@ -1,15 +1,15 @@
-# CE-Platform-Stack — branch CE-CS-002
+# CE-Platform-Stack — branch CE-CS-003
 
 Testbed reference repository for validating a code-scanning platform against
-a locked **C# (.NET 8.0)** technology stack (**C# .NET 8.0 / .NET 9.0**).
+a locked **C# (.NET 9.0)** technology stack (**C# .NET 8.0 / .NET 9.0**).
 
 This branch is part of the `CE-CS`, `CE-PYCS`, `CE-CSJS`, and `CE-CSTS` C# matrices:
 
 | Branch | Primary Pair | C# / Language Build Tool | Package Manager | Project Structure |
 |---|---|---|---|---|
-| `CE-CS-002` | C# (.NET 8.0) | dotnet CLI | NuGet | **Microservices** |
+| `CE-CS-003` | C# (.NET 9.0) | MSBuild | CPM (Directory.Packages.props) | **Monolith** |
 
-## Technology Baseline (C# (.NET 8.0))
+## Technology Baseline (C# (.NET 9.0))
 
 All core technologies are genuinely wired and exercised on this branch:
 - **C# Service A**: .NET 8.0 / .NET 9.0, ASP.NET Core Kestrel Web Server, `Grpc.AspNetCore` (gRPC Server), MongoDB ORM (`MongoDB.Driver`), Security Code Scan Roslyn Analyzers
