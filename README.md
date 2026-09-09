@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-CSJS-002
+# CE-Platform-Stack — branch CE-CSJS-003
 
 Testbed reference repository for validating a code-scanning platform against
 a locked **C# + Pure JavaScript** technology stack (**C# .NET 8.0 / .NET 9.0**).
@@ -7,7 +7,7 @@ This branch is part of the `CE-CS`, `CE-PYCS`, `CE-CSJS`, and `CE-CSTS` C# matri
 
 | Branch | Primary Pair | C# / Language Build Tool | Package Manager | Project Structure |
 |---|---|---|---|---|
-| `CE-CSJS-002` | C# + Pure JavaScript | dotnet CLI | npm | **Microservices** |
+| `CE-CSJS-003` | C# + Pure JavaScript | MSBuild | pnpm | **Monolith** |
 
 ## Technology Baseline (C# + Pure JavaScript)
 
