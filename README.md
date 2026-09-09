@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-PYTS-004
+# CE-Platform-Stack — branch CE-PYTS-005
 
 Testbed reference repository for validating a code-scanning platform against
 a locked dual-language microservices technology stack (**Python** + **TypeScript**).
@@ -8,7 +8,7 @@ This branch is part of the `CE-PYTS-001`..`CE-PYTS-025` Python + TypeScript comb
 
 | Branch | Python Build Tool | TS Package Manager | Architecture Pattern |
 |---|---|---|---|
-| `CE-PYTS-004` | setuptools | npm | Event-driven |
+| `CE-PYTS-005` | setuptools | npm | Distributed System |
 
 ## Dual-Language Technology Baseline
 
