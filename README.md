@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-JS-007
+# CE-Platform-Stack — branch CE-JS-008
 
 Testbed reference repository for validating a code-scanning platform against
 a locked **Pure JavaScript** microservices technology stack.
@@ -7,7 +7,7 @@ This branch is part of the `CE-JS-001`..`CE-JS-010` dedicated JavaScript combina
 
 | Branch | Runtime / Language | JS Package Manager | Project Structure |
 |---|---|---|---|
-| `CE-JS-007` | JavaScript (Bun 1.1) | bun | **Monolith** |
+| `CE-JS-008` | JavaScript (Bun 1.1) | bun | **Microservices** |
 
 ## Pure JavaScript Technology Baseline
 
