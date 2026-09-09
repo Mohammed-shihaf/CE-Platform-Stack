@@ -1,32 +1,32 @@
-# CE-Platform-Stack — branch CE-PYTS-001
+# CE-Platform-Stack — branch CE-PYJS-001
 
 Testbed reference repository for validating a code-scanning platform against
-a locked dual-language microservices technology stack (**Python** + **TypeScript/JavaScript**).
+a locked dual-language microservices technology stack (**Python** + **JavaScript**).
 
-This branch is part of the `CE-PYTS-001`..`CE-PYTS-010` dual-language combination matrix (5 Python build tools x 5 JS/TS package managers x 2 project structures):
+This branch is part of the `CE-PYJS-001`..`CE-PYJS-010` dual-language combination matrix (5 Python build tools x 5 JS package managers x 2 project structures):
 
-| Branch | Python Build Tool | JS/TS Package Manager | Project Structure |
+| Branch | Python Build Tool | JS Package Manager | Project Structure |
 |---|---|---|---|
-| `CE-PYTS-001` | setuptools | npm | **Monolith** |
+| `CE-PYJS-001` | setuptools | npm | **Monolith** |
 
-## Dual-Language Technology Baseline
+## Dual-Language Technology Baseline (Python + Pure JavaScript)
 
 All core technologies are genuinely wired and exercised on this branch:
 - **Python Service A**: Python 3.11+, FastAPI (REST API), `grpcio` (gRPC Server), MongoDB 8 (`pymongo`)
-- **TypeScript Service B**: TypeScript / Node.js 22, Express, `@grpc/grpc-js` (gRPC Client), Elasticsearch 8, AWS SNS (LocalStack), AWS SES (LocalStack)
-- **TypeScript Frontend**: Angular 20 SPA (TypeScript)
+- **JavaScript Service B**: Node.js 22 Pure JavaScript, Express, `@grpc/grpc-js` (gRPC Client `WatchRecords` subscriber), Elasticsearch 8, AWS SNS (LocalStack), AWS SES (LocalStack)
+- **JavaScript Frontend**: Angular 20 SPA
 - **Database**: MongoDB 8 (Docker container `ce-mongo`)
 - **Search Engine**: Elasticsearch 8 (Docker container `ce-elasticsearch`)
 - **Queue & Mail**: AWS SNS + AWS SES (LocalStack container `ce-localstack`)
 - **Inter-service Protocol**: gRPC (`shared/proto/record.proto`)
 
-## Codebase Composition (Python + TypeScript)
+## Codebase Composition (Python + JavaScript)
 
 ```
-/frontend                   Angular 20 TypeScript app (REST client)
+/frontend                   Angular 20 app (REST client)
 /backend-python-service-a   Python 3.11+ service — gRPC server (`RecordService`), FastAPI REST API, MongoDB ORM
-/backend-service-b          TypeScript / Node.js 22 service — gRPC client (`WatchRecords` stream), Elasticsearch, SNS/SES
-/shared/proto               .proto contract defining gRPC interface between Python and TypeScript
+/backend-service-b          Pure JavaScript / Node.js 22 service — gRPC client (`WatchRecords` stream), Elasticsearch, SNS/SES
+/shared/proto               .proto contract defining gRPC interface between Python and JavaScript
 docker-compose.yml          Mongo 8 + Elasticsearch 8 + LocalStack (SNS/SES/SQS)
 ```
 
@@ -41,12 +41,12 @@ cd backend-python-service-a
 python -m pip install -r requirements.txt
 python -m src.main
 
-# 3. Start TypeScript Service B
+# 3. Start JavaScript Service B
 cd backend-service-b
 npm install
 npm start
 
-# 4. Start Angular TypeScript Frontend
+# 4. Start Frontend
 cd frontend
 npm install
 npx ng serve
