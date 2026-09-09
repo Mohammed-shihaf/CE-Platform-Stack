@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-PYJS-005
+# CE-Platform-Stack — branch CE-PYJS-006
 
 Testbed reference repository for validating a code-scanning platform against
 a locked dual-language microservices technology stack (**Python** + **JavaScript**).
@@ -7,7 +7,7 @@ This branch is part of the `CE-PYJS-001`..`CE-PYJS-010` dual-language combinatio
 
 | Branch | Python Build Tool | JS Package Manager | Project Structure |
 |---|---|---|---|
-| `CE-PYJS-005` | hatch | yarn (Berry) | **Monolith** |
+| `CE-PYJS-006` | hatch | yarn (Berry) | **Microservices** |
 
 ## Dual-Language Technology Baseline (Python + Pure JavaScript)
 
