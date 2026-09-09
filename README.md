@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-PYCS-004
+# CE-Platform-Stack — branch CE-PYCS-005
 
 Testbed reference repository for validating a code-scanning platform against
 a locked **Python + C#** technology stack (**C# .NET 8.0 / .NET 9.0**).
@@ -7,7 +7,7 @@ This branch is part of the `CE-CS`, `CE-PYCS`, `CE-CSJS`, and `CE-CSTS` C# matri
 
 | Branch | Primary Pair | C# / Language Build Tool | Package Manager | Project Structure |
 |---|---|---|---|---|
-| `CE-PYCS-004` | Python + C# | flit / Cake | bun / NuGet | **Microservices** |
+| `CE-PYCS-005` | Python + C# | uv / Nuke | npm esbuild / NuGet | **Microservices** |
 
 ## Technology Baseline (Python + C#)
 
