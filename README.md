@@ -1,4 +1,4 @@
-# CE-Platform-Stack — branch CE-CSTS-002
+# CE-Platform-Stack — branch CE-CSTS-003
 
 Testbed reference repository for validating a code-scanning platform against
 a locked **C# + TypeScript** technology stack (**C# .NET 8.0 / .NET 9.0**).
@@ -7,7 +7,7 @@ This branch is part of the `CE-CS`, `CE-PYCS`, `CE-CSJS`, and `CE-CSTS` C# matri
 
 | Branch | Primary Pair | C# / Language Build Tool | Package Manager | Project Structure |
 |---|---|---|---|---|
-| `CE-CSTS-002` | C# + TypeScript | dotnet CLI | npm | **Microservices** |
+| `CE-CSTS-003` | C# + TypeScript | MSBuild | pnpm | **Monolith** |
 
 ## Technology Baseline (C# + TypeScript)
 
