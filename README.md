@@ -1,15 +1,15 @@
-# CE-Platform-Stack — branch CE-CSJS-005
+# CE-Platform-Stack — branch CE-CSTS-001
 
 Testbed reference repository for validating a code-scanning platform against
-a locked **C# + Pure JavaScript** technology stack (**C# .NET 8.0 / .NET 9.0**).
+a locked **C# + TypeScript** technology stack (**C# .NET 8.0 / .NET 9.0**).
 
 This branch is part of the `CE-CS`, `CE-PYCS`, `CE-CSJS`, and `CE-CSTS` C# matrices:
 
 | Branch | Primary Pair | C# / Language Build Tool | Package Manager | Project Structure |
 |---|---|---|---|---|
-| `CE-CSJS-005` | C# + Pure JavaScript | Nuke | bun | **Microservices** |
+| `CE-CSTS-001` | C# + TypeScript | dotnet CLI | npm | **Monolith** |
 
-## Technology Baseline (C# + Pure JavaScript)
+## Technology Baseline (C# + TypeScript)
 
 All core technologies are genuinely wired and exercised on this branch:
 - **C# Service A**: .NET 8.0 / .NET 9.0, ASP.NET Core Kestrel Web Server, `Grpc.AspNetCore` (gRPC Server), MongoDB ORM (`MongoDB.Driver`), Security Code Scan Roslyn Analyzers
