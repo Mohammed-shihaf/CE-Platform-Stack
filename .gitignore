@@ -5,3 +5,12 @@ dist/
 .env
 .DS_Store
 coverage/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+coverage.xml
+**/report/
+bin/
+obj/
