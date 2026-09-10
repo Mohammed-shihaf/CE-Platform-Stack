@@ -15,6 +15,6 @@ metrics:
   - CI/CD Integration Test
 primary: true
 secondary: csharp-call-paths
-run_command: bash quality/altcover/run_altcover.sh
+run_command: dotnet test /p:AltCover=true
 config: altcover.xml
 output: quality/altcover/report/

@@ -4,7 +4,7 @@ version: "3.11"
 technique: Code Duplication
 metric: Structural Cleanliness Score
 primary: true
-run_command: bash quality/jscpd/run_jscpd.sh
+run_command: python quality/jscpd/trigger.py
 threshold:
   max_duplication_percent: 5
 reporters:

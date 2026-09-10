@@ -12,6 +12,6 @@ metrics:
   - Security Vulnerability Detection
 primary: true
 secondary: roslyn-sast
-run_command: bash quality/semgrep/run_semgrep.sh
+run_command: semgrep --config ../.semgrep.yml
 config: ../.semgrep.yml
 output: quality/semgrep/report/

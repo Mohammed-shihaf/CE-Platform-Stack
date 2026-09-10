@@ -8,7 +8,7 @@ metrics:
   - Vulnerable Dependency Identification
 primary: true
 secondary: safety
-run_command: bash quality/sca/run_sca.sh
+run_command: python quality/sca/trigger.py
 threshold:
   fail_on_vuln: false
 output: quality/sca/report/

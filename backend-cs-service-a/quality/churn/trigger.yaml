@@ -10,5 +10,5 @@ metrics:
   - Change Impact Analysis
 primary: true
 secondary: git-log-churn
-run_command: bash quality/churn/run_churn.sh
+run_command: python quality/churn/trigger.py
 output: quality/churn/report/

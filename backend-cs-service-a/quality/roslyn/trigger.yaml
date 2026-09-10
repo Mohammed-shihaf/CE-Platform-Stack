@@ -17,6 +17,6 @@ metrics:
   - Violation Reporting Validation
 primary: true
 secondary: roslyn
-run_command: bash quality/roslyn/run_roslyn.sh
+run_command: dotnet build backend-cs-service-a.csproj /p:EnableNETAnalyzers=true
 config: ../.editorconfig
 output: quality/roslyn/report/
