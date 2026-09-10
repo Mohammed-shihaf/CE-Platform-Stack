@@ -8,33 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Test runner — latest, net8/9/10 verified -->
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-
-    <!-- xUnit v2 latest stable — maintenance mode but fully net8 compatible -->
-    <PackageReference Include="xunit" Version="2.9.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="xunit" Version="2.7.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-
-    <!-- Mocking -->
-    <PackageReference Include="Moq" Version="4.20.72" />
-
-    <!-- Coverlet 10.0.1 — latest, net8/9/10 verified (fixes TFM resolution issues) -->
-    <PackageReference Include="coverlet.collector" Version="10.0.1">
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="coverlet.collector" Version="6.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.msbuild" Version="10.0.1">
+    <PackageReference Include="coverlet.msbuild" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-
-    <!-- AltCover 9.0.102 — latest, net8/9/10 verified (net10 support added in 9.0.102) -->
-    <PackageReference Include="AltCover" Version="9.0.102">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
