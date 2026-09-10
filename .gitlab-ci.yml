@@ -1,0 +1,8 @@
+stages:
+  - verify
+
+verify-shell:
+  stage: verify
+  image: ubuntu:22.04
+  script:
+    - bash --version
