@@ -1,0 +1,22 @@
+tool: roslyn-sast
+language: csharp
+version: "net8.0"
+technique: Lint / Rule Violations
+metrics:
+  - Violation Density per KLOC
+  - Unused Variable Detection
+  - Naming Convention Validation
+  - Code Style Rule Validation
+  - Complexity Rule Detection
+  - Rule Severity Classification
+  - Multiple Violations Detection
+  - False Positive Prevention
+  - Custom Rule Validation
+  - Configuration File Handling
+  - CI/CD Integration Validation
+  - Violation Reporting Validation
+primary: true
+secondary: roslyn
+run_command: bash quality/roslyn/run_roslyn.sh
+config: ../.editorconfig
+output: quality/roslyn/report/
