@@ -1,26 +1,27 @@
-fastapi==0.111.0
-uvicorn[standard]==0.29.0
-grpcio==1.63.0
-grpcio-tools==1.63.0
-pymongo==4.7.2
-bson==0.5.10
-pydantic==2.7.1
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+grpcio==1.67.0
+grpcio-tools==1.67.0
+pymongo==4.10.1
+pydantic==2.10.0
 
-# Testing & Coverage
-pytest==8.2.0
-pytest-cov==5.0.0
-httpx==0.27.0
+# Testing & Coverage — Python 3.13 verified ✅
+pytest==8.3.4
+pytest-cov==6.0.0
+httpx==0.28.0
 
-# Mutation Testing
-mutmut==2.4.4
-cosmic-ray==8.3.7
+# Mutation Testing — Python 3.13 verified ✅
+mutmut==3.7.0            # requires >=3.10; 3.13 supported since v3.3.0
+cosmic-ray==8.7.0        # requires >=3.9; 3.13 classifier confirmed on PyPI
 
-# Data-flow / Definition Coverage
-beniget==0.4.2
-pyflakes==3.2.0
+# Data-flow / Definition Coverage — Python 3.13 verified ✅
+beniget==0.5.0           # pure Python; uses stdlib ast; works on 3.13
+pyflakes==3.4.0          # requires >=3.9; fully supported on 3.13
 
-# SAST
-bandit==1.7.8
+# SAST — Python 3.13 verified ✅
+bandit==1.9.4            # requires >=3.9; fully supported on 3.13
 
 # Code Duplication
-copydetect==0.4.1
+# NOTE: copydetect 0.5.0 has no explicit Python 3.13 classifier (uploaded Mar 2024)
+# jscpd (Node.js) is PRIMARY tool and Python-version-independent; use as fallback
+copydetect==0.5.0        # secondary; unverified on 3.13 — fallback to jscpd if issues
