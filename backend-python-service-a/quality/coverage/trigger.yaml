@@ -1,0 +1,24 @@
+tool: coverage.py
+language: python
+version: "3.11"
+techniques:
+  - Statement Coverage
+  - Branch Coverage
+  - Path Coverage
+  - Coverage Delta
+metrics:
+  - Statement Coverage %
+  - Branch Coverage %
+  - Path Coverage %
+  - Coverage Delta %
+primary: true
+run_command: bash quality/coverage/run_coverage.sh
+threshold:
+  statement: 80
+  branch: 75
+  fail_under: 80
+reporters:
+  - term-missing
+  - xml
+  - html
+output: quality/coverage/report/
