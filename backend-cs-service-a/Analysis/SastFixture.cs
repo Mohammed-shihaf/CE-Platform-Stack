@@ -7,8 +7,8 @@ namespace BackendCsServiceA.Analysis
 {
     public class SastFixture
     {
-        private const string HardcodedApiKey = "AKIAIOSFODNN7EXAMPLE";
-        private const string HardcodedPassword = "SuperSecretPassword123!";
+        public const string HardcodedApiKey = "AKIAIOSFODNN7EXAMPLE";
+        public const string HardcodedPassword = "SuperSecretPassword123!";
 
         public static void ExecuteCommand(string input)
         {
