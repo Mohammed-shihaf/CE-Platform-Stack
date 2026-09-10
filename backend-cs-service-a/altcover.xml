@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AltCover configuration — Path Coverage for C# service
+  Instruments: ComplexitySample, RecordServiceImpl, RecordsController
+  Unlocks: all 9 Path Coverage metrics
+-->
+<Configuration>
+  <AssemblyFilter>
+    <Exclude>.*\.Tests$</Exclude>
+    <Exclude>xunit.*</Exclude>
+    <Exclude>Moq.*</Exclude>
+  </AssemblyFilter>
+  <FileFilter>
+    <Exclude>.*Generated.*</Exclude>
+    <Exclude>.*\.pb\.cs$</Exclude>
+    <Exclude>.*Grpc\.cs$</Exclude>
+  </FileFilter>
+  <TypeFilter>
+    <Exclude>BackendCsServiceA\.Analysis\.DeadCode</Exclude>
+  </TypeFilter>
+  <AttributeFilter>
+    <Exclude>System\.Diagnostics\.CodeAnalysis\.ExcludeFromCodeCoverageAttribute</Exclude>
+  </AttributeFilter>
+  <Report>quality/altcover/report/altcover.xml</Report>
+  <ReportFormat>OpenCover</ReportFormat>
+  <BranchCover>true</BranchCover>
+  <StaticCover>true</StaticCover>
+  <ShowStatic>true</ShowStatic>
+</Configuration>

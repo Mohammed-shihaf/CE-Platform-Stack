@@ -1,0 +1,25 @@
+{
+  "stryker-config": {
+    "project": "backend-cs-service-a.csproj",
+    "test-projects": [
+      "../backend-cs-service-a.Tests/backend-cs-service-a.Tests.csproj"
+    ],
+    "reporters": ["progress", "html", "json"],
+    "output-path": "quality/stryker/report",
+    "log": {
+      "log-level": "info"
+    },
+    "thresholds": {
+      "high": 80,
+      "low": 70,
+      "break": 60
+    },
+    "mutate": [
+      "Analysis/ComplexitySample.cs",
+      "Analysis/SastFixture.cs",
+      "Services/RecordServiceImpl.cs",
+      "Controllers/RecordsController.cs"
+    ],
+    "mutation-level": "Standard"
+  }
+}
