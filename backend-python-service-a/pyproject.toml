@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "backend-python-service-a"
+version = "1.0.0"
+description = "CE Platform — Python Service A (FastAPI + gRPC + MongoDB)"
+requires-python = ">=3.11"
+readme = "README.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src --cov=analysis --cov-branch --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=80 -v"
+
+[tool.coverage.run]
+branch = true
+source = ["src", "analysis"]
+omit = ["tests/*", "src/main.py"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "def serve",
+]
+
+[tool.mutmut]
+paths_to_mutate = "analysis/,src/"
+tests_dir = "tests/"
+runner = "python -m pytest"
