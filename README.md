@@ -23,11 +23,15 @@ All core technologies are genuinely wired and exercised on this branch:
 ## Codebase Composition
 
 ```
-/frontend             Angular 20 app (REST client)
-/backend-cs-service-a C# .NET 8.0 / .NET 9.0 service — gRPC server (`RecordService`), Kestrel REST API, Roslyn Analyzers
-/backend-service-b    Service B — gRPC client (`WatchRecords` stream), Elasticsearch, SNS/SES
-/shared/proto         .proto contract defining gRPC interface
-docker-compose.yml    Mongo 8 + Elasticsearch 8 + LocalStack (SNS/SES/SQS)
+CE-Platform-Stack.sln   Root .NET Solution file (links C# service + tests)
+/frontend               Angular 20 app (npm, REST client)
+/backend-cs-service-a   C# .NET 8.0 service — gRPC server (`RecordService`), Kestrel REST API, Roslyn Analyzers
+/backend-cs-service-a.Tests xUnit test project with Coverlet, AltCover, Stryker
+/backend-python-service-a Python 3.11+ service (FastAPI, gRPC, pymongo, quality fixtures)
+/backend-service-b      Service B — gRPC client (`WatchRecords` stream), Elasticsearch, SNS/SES
+/shared/proto           .proto contract defining gRPC interface
+/scripts                Repository build and validation scripts
+docker-compose.yml      Mongo 8 + Elasticsearch 8 + LocalStack (SNS/SES/SQS)
 ```
 
 ## Install & Run Commands

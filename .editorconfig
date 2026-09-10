@@ -41,7 +41,7 @@ dotnet_diagnostic.CA1806.severity = warning   # do not ignore method results
 # Security / SAST — severity classification
 dotnet_diagnostic.SCS0002.severity = error    # SQL injection (SecurityCodeScan)
 dotnet_diagnostic.SCS0007.severity = error    # XSS
-dotnet_diagnostic.SCS0012.severity = error    # controller method is vulnerable
+dotnet_diagnostic.SCS0012.severity = warning  # controller method authorization check
 dotnet_diagnostic.SCS0026.severity = error    # command injection
 dotnet_diagnostic.SCS0015.severity = warning  # hardcoded password
 

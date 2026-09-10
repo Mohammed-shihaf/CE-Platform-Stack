@@ -51,7 +51,7 @@ public class RecordServiceTests
     public void NotifyRecordCreated_WithNoSubscribers_DoesNotThrow()
     {
         // P-Use: foreach iteration predicate on _subscribers (empty set)
-        var wireRecord = new Record
+        var wireRecord = new Ceplatform.Record
         {
             Id = "test-id",
             Title = "Test Title",
@@ -60,7 +60,7 @@ public class RecordServiceTests
         };
 
         // Should not throw with zero subscribers
-        var exception = Record.Exception(() =>
+        var exception = Xunit.Record.Exception(() =>
             RecordServiceImpl.NotifyRecordCreated(wireRecord));
         Assert.Null(exception);
     }
