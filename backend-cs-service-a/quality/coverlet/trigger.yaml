@@ -11,7 +11,7 @@ metrics:
   - Coverage Delta %
 primary: true
 secondary: coverlet-delta
-run_command: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+run_command: bash quality/coverlet/run_coverlet.sh
 threshold:
   line: 80
   branch: 75

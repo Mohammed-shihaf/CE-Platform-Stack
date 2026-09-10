@@ -11,5 +11,5 @@ metrics:
   - Unreachable Use Detection
 primary: true
 secondary: all_uses
-run_command: python quality/all_uses/trigger.py
+run_command: bash quality/all_uses/run_all_uses.sh
 output: quality/all_uses/report/

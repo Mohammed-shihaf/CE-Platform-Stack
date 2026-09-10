@@ -12,7 +12,7 @@ metrics:
   - Code Logic Validation
 primary: true
 secondary: stryker-net
-run_command: dotnet stryker --config-file stryker-config.json
+run_command: bash quality/stryker/run_stryker.sh
 config: stryker-config.json
 threshold:
   kill_rate: 70

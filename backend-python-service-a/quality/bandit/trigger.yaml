@@ -8,7 +8,7 @@ metrics:
   - Injection Vulnerability Detection
   - Cryptographic Weakness Detection
 primary: true
-run_command: python quality/bandit/trigger.py
+run_command: bash quality/bandit/run_bandit.sh
 threshold:
   severity: low
   confidence: low

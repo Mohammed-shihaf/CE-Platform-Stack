@@ -8,7 +8,7 @@ metrics:
   - File Churn Frequency
   - Hotspot Identification
 primary: true
-run_command: python quality/churn/trigger.py
+run_command: bash quality/churn/run_churn.sh
 threshold:
   min_commits: 1
 output: quality/churn/report/

@@ -8,7 +8,7 @@ metrics:
   - Test Rigor Assessment
 primary: true
 secondary: cosmic-ray
-run_command: python quality/mutation/trigger.py
+run_command: bash quality/mutation/run_mutmut.sh
 threshold:
   kill_rate: 70
 output: quality/mutation/report/

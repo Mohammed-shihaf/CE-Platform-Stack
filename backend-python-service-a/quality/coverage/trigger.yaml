@@ -12,7 +12,7 @@ metrics:
   - Path Coverage %
   - Coverage Delta %
 primary: true
-run_command: pytest --cov=src --cov-report=xml --cov-report=term-missing tests/
+run_command: bash quality/coverage/run_coverage.sh
 threshold:
   statement: 80
   branch: 75

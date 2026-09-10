@@ -13,7 +13,7 @@ metrics:
   - Outdated Dependency Detection
 primary: true
 secondary: cve-bin-tool
-run_command: python quality/sca/trigger.py
+run_command: bash quality/sca/run_sca.sh
 known_vulnerable_packages:
   - name: Newtonsoft.Json
     version: "12.0.1"
