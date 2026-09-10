@@ -4,7 +4,9 @@ dist/
 *.log
 .env
 .DS_Store
-coverage/
+/coverage/
+!**/quality/coverage/**
+!**/quality/coverage.py/**
 __pycache__/
 *.pyc
 *.pyo
