@@ -1,32 +1,39 @@
-import Fastify from 'fastify';
-import { exec } from 'child_process';
-import { validateUserRoleA } from './fixtures/duplication/roleValidator';
-import { evaluateAccessPolicy } from './fixtures/complexity/policyEngine';
+import express from 'express';
+import cors from 'cors';
+import { RolePermissionsEngine } from './domain/roles/RolePermissionsEngine';
+import { AccessPolicyEngine } from './domain/policy/AccessPolicyEngine';
+import { diagnosticsRouter } from './controllers/DiagnosticsController';
+import { AUTH_CONFIG } from './config/authConfig';
 
-const fastify = Fastify({ logger: true });
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-// CWE-798: Hardcoded secret key
-export const AUTH_SIGNING_SECRET = "sec_synthetic_jwt_token_auth_microservice_2026";
+const roleEngine = new RolePermissionsEngine();
+const policyEngine = new AccessPolicyEngine();
 
-fastify.get('/health', async () => {
-  return { service: 'auth-service', status: 'READY' };
+app.use('/api/diagnostics', diagnosticsRouter);
+
+app.post('/api/auth/evaluate-role', (req, res) => {
+  const result = roleEngine.evaluateAccess(req.body);
+  res.json({ result });
 });
 
-fastify.post('/api/auth/validate', async (request, reply) => {
-  const body = request.body as any;
-  const val = validateUserRoleA(body.token, body.roles || [], Date.now());
-  const policy = evaluateAccessPolicy(body.tier || 'STANDARD', body.action || 'READ', false, false);
-  return { val, policy };
+app.post('/api/auth/check-policy', (req, res) => {
+  const { tenant, action, clearance, requiresMfa, mfaVerified } = req.body;
+  const outcome = policyEngine.checkPolicyRule(tenant, action, clearance, requiresMfa, mfaVerified);
+  res.json({ outcome });
 });
 
-fastify.get('/api/auth/ping', async (request, reply) => {
-  const target = (request.query as any).target || '127.0.0.1';
-  // CWE-78: Command Injection
-  return new Promise((resolve) => {
-    exec(`ping -c 1 ${target}`, (err, stdout) => {
-      resolve({ output: stdout || 'Unavailable' });
-    });
+app.get('/health', (req, res) => {
+  res.json({ service: AUTH_CONFIG.serviceName, status: 'HEALTHY' });
+});
+
+const PORT = AUTH_CONFIG.port;
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`[AuthService] Listening on port ${PORT}`);
   });
-});
+}
 
-export { fastify };
+export { app };

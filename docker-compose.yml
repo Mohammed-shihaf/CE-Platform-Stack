@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  admin-dashboard:
+    build:
+      context: ./apps/admin-dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "3006:3006"
+    environment:
+      - VITE_AUTH_SERVICE_URL=http://auth-service:4001
+      - VITE_INVENTORY_SERVICE_URL=http://inventory-service:4002
+    depends_on:
+      - auth-service
+      - inventory-service
+    networks:
+      - ce-rspack-services-net
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+      - NODE_ENV=production
+    networks:
+      - ce-rspack-services-net
+
+  inventory-service:
+    build:
+      context: ./services/inventory-service
+      dockerfile: Dockerfile
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT=4002
+      - AUTH_SERVICE_URL=http://auth-service:4001
+      - NODE_ENV=production
+    depends_on:
+      - auth-service
+    networks:
+      - ce-rspack-services-net
+
+networks:
+  ce-rspack-services-net:
+    driver: bridge

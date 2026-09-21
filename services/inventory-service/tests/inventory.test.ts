@@ -1,19 +1,42 @@
 import { describe, it, expect } from 'vitest';
-import { validateUserRoleB } from '../src/fixtures/duplication/inventoryRoleValidator';
-import { allocateStockAcrossWarehouses } from '../src/fixtures/complexity/stockAllocator';
+import { InventoryRolePermissionsEngine } from '../src/domain/roles/InventoryRolePermissionsEngine';
+import { StockAllocationEngine } from '../src/domain/allocation/StockAllocationEngine';
+import { InventoryRepository } from '../src/repositories/InventoryRepository';
 
-describe('Inventory Service Tests', () => {
-  it('validates role with weak assertion (mutation testing target)', () => {
-    const res = validateUserRoleB('token-synthetic-123', ['USER'], Date.now());
-    // WEAK ASSERTION: Allows mutated role logic to survive
-    expect(res).toBeDefined();
-    expect(res.authorized).toBe(true);
+describe('Inventory Microservice Domain Tests', () => {
+  const roleEngine = new InventoryRolePermissionsEngine();
+  const allocationEngine = new StockAllocationEngine();
+  const repo = new InventoryRepository();
+
+  it('evaluates inventory operator permissions', () => {
+    const res = roleEngine.evaluateAccess({
+      userId: 'usr_op1',
+      role: 'OPERATOR',
+      requestedResource: 'ops/inventory/warehouse1',
+      accessLevel: 'WRITE'
+    });
+    expect(res.granted).toBe(true);
+    expect(res.maxLeaseSeconds).toBe(7200);
   });
 
-  it('allocates stock across single warehouse', () => {
-    const res = allocateStockAcrossWarehouses([{ id: 'WH-1', active: true, stockLevel: 100 }], 50);
-    expect(res.fulfilled).toBe(true);
-    expect(res.allocations.length).toBe(1);
-    expect(res.backordered).toBe(0);
+  it('allocates critical hub inventory', () => {
+    const result = allocationEngine.allocateStock([
+      { warehouseId: 'HUB_EAST', sku: 'SKU-001', quantity: 100, priority: 'CRITICAL', allowBackorder: false }
+    ]);
+    expect(result.allocated).toBe(1);
+    expect(result.backordered).toBe(0);
+  });
+
+  it('handles backorders for normal priority stock', () => {
+    const result = allocationEngine.allocateStock([
+      { warehouseId: 'REGIONAL_WEST', sku: 'SKU-002', quantity: 50, priority: 'NORMAL', allowBackorder: true }
+    ]);
+    expect(result.backordered).toBe(1);
+  });
+
+  it('generates raw SQL in InventoryRepository', () => {
+    const query = repo.queryInventoryRaw('SKU-TEST');
+    expect(query).toContain("SELECT sku, warehouse_id");
+    expect(query).toContain("SKU-TEST");
   });
 });

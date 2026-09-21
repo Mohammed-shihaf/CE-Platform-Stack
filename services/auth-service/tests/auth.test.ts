@@ -1,16 +1,39 @@
 import { describe, it, expect } from 'vitest';
-import { validateUserRoleA } from '../src/fixtures/duplication/roleValidator';
-import { evaluateAccessPolicy } from '../src/fixtures/complexity/policyEngine';
+import { RolePermissionsEngine } from '../src/domain/roles/RolePermissionsEngine';
+import { AccessPolicyEngine } from '../src/domain/policy/AccessPolicyEngine';
 
-describe('Auth Service Tests', () => {
-  it('validates user with matching roles', () => {
-    const res = validateUserRoleA('valid-synthetic-jwt-999', ['USER', 'OPERATOR'], Date.now());
-    expect(res.authorized).toBe(true);
-    expect(res.activeRoles.length).toBe(2);
+describe('Auth Microservice Domain Tests', () => {
+  const roleEngine = new RolePermissionsEngine();
+  const policyEngine = new AccessPolicyEngine();
+
+  it('evaluates superadmin access grant', () => {
+    const res = roleEngine.evaluateAccess({
+      userId: 'usr_super',
+      role: 'SUPERADMIN',
+      requestedResource: 'admin/cluster',
+      accessLevel: 'ADMINISTER'
+    });
+    expect(res.granted).toBe(true);
+    expect(res.maxLeaseSeconds).toBe(86400);
   });
 
-  it('evaluates super admin policy', () => {
-    const decision = evaluateAccessPolicy('SUPER_ADMIN', 'DELETE_DB', true, true);
-    expect(decision).toBe('GRANT_FULL_ROOT_ACCESS');
+  it('evaluates manager read/write permissions', () => {
+    const res = roleEngine.evaluateAccess({
+      userId: 'usr_mgr',
+      role: 'MANAGER',
+      requestedResource: 'billing/invoices',
+      accessLevel: 'WRITE'
+    });
+    expect(res.granted).toBe(true);
+  });
+
+  it('evaluates enterprise policy clearance', () => {
+    const outcome = policyEngine.checkPolicyRule('ENTERPRISE', 'READ_INTERNAL', 4, false, false);
+    expect(outcome).toBe('GRANT_ENTERPRISE_INTERNAL');
+  });
+
+  it('enforces MFA for sensitive enterprise access', () => {
+    const outcome = policyEngine.checkPolicyRule('ENTERPRISE', 'MODIFY_FINANCE', 4, true, false);
+    expect(outcome).toBe('MFA_CHALLENGE_REQUIRED');
   });
 });
