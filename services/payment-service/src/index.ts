@@ -1,4 +1,7 @@
-import { startGrpcServer } from './grpcServer';
+import { startGrpcServer } from './domain/payments/PaymentServer';
+import { PAYMENT_SERVICE_CONFIG } from './config/paymentServiceConfig';
 
-console.log('Starting Payment Microservice (gRPC)...');
-startGrpcServer();
+console.log(`[PaymentService] Initializing ${PAYMENT_SERVICE_CONFIG.serviceName}...`);
+const server = startGrpcServer(PAYMENT_SERVICE_CONFIG.grpcPort);
+
+export { server };

@@ -48,6 +48,12 @@ importers:
 
   services/order-service:
     dependencies:
+      '@grpc/grpc-js':
+        specifier: ^1.10.9
+        version: 1.14.5
+      '@grpc/proto-loader':
+        specifier: ^0.7.13
+        version: 0.7.15
       cors:
         specifier: ^2.8.5
         version: 2.8.6

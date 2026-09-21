@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend-client:
+    build:
+      context: ./apps/frontend-client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_ORDER_SERVICE_URL=http://order-service:3001
+    depends_on:
+      - order-service
+    networks:
+      - ce-microservices-net
+
+  order-service:
+    build:
+      context: ./services/order-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - PAYMENT_SERVICE_GRPC_HOST=payment-service:50051
+      - NODE_ENV=production
+    depends_on:
+      - payment-service
+    networks:
+      - ce-microservices-net
+
+  payment-service:
+    build:
+      context: ./services/payment-service
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
+    environment:
+      - GRPC_PORT=50051
+      - NODE_ENV=production
+    networks:
+      - ce-microservices-net
+
+networks:
+  ce-microservices-net:
+    driver: bridge
