@@ -1,18 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { calculateTaxServiceB } from '../../src/benchmark-fixtures/duplication/taxCalculationServiceB';
+import { computeEnterpriseTaxA } from '../../src/server/services/TaxCalculationServiceA';
 
-describe('Tax Calculation Service B (Mutation Test Weak Assertions)', () => {
-  it('exercises calculation with weak assertions (allowing mutants to survive)', () => {
-    const res = calculateTaxServiceB(100, 'CA', false);
-    // WEAK ASSERTION: only checks defined, does not check arithmetic exactness!
-    // A mutation changing rate to negative or + to - will SURVIVE!
+describe('Mutation Benchmark Calibration Suite', () => {
+  it('exercises tax calculation with weak assertions allowing mutant survival', () => {
+    const items = [{ id: 'MUT-1', category: 'STANDARD', unitPrice: 100, quantity: 1 }];
+    const res = computeEnterpriseTaxA(items, 0.05, null);
+    // Intentional weak assertion for Stryker / Mutmut score benchmark calibration
     expect(res).toBeDefined();
-    expect(res.totalAmount).toBeGreaterThan(0);
-  });
-
-  it('kills exempt mutant with exact assertion', () => {
-    const res = calculateTaxServiceB(100, 'CA', true);
-    // STRONG ASSERTION: Kills mutants changing exempt behavior
-    expect(res.taxAmount).toBe(0);
+    expect(res.totalWithTax).toBeGreaterThan(0);
   });
 });
