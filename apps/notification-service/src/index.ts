@@ -2,19 +2,27 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { Module, Controller } from '@nestjs/common';
 import { MessagePattern, Transport } from '@nestjs/microservices';
-import { calculateTaxNotificationEngine } from './fixtures/duplication/taxNotificationEngine';
-import { dispatchAlertEvents } from './fixtures/complexity/alertDispatcher';
+import { NotificationTaxSummaryEngine } from './domain/notifications/NotificationTaxSummaryEngine';
+import { AlertDispatcherEngine, AlertMessage } from './domain/notifications/AlertDispatcherEngine';
+
+const taxSummaryEngine = new NotificationTaxSummaryEngine();
+const alertDispatcher = new AlertDispatcherEngine();
 
 @Controller()
 export class NotificationMicroserviceController {
-  @MessagePattern({ cmd: 'preview_tax_alert' })
-  previewTaxAlert(data: { amount: number; jurisdiction: string; exempt: boolean }) {
-    return calculateTaxNotificationEngine(data.amount, data.jurisdiction, data.exempt);
+  @MessagePattern({ cmd: 'format_tax_notification' })
+  formatTaxNotification(data: { amount: number; state: string; isExempt: boolean }) {
+    return taxSummaryEngine.computeTaxSettlement({
+      baseAmount: data.amount,
+      stateCode: data.state,
+      isTaxExempt: data.isExempt,
+      category: 'STANDARD'
+    });
   }
 
-  @MessagePattern({ cmd: 'send_bulk_alerts' })
-  sendBulkAlerts(data: { alerts: any[] }) {
-    return dispatchAlertEvents(data.alerts);
+  @MessagePattern({ cmd: 'dispatch_alerts' })
+  dispatchAlerts(data: { alerts: AlertMessage[] }) {
+    return alertDispatcher.dispatchAlerts(data.alerts);
   }
 }
 
@@ -23,10 +31,20 @@ export class NotificationMicroserviceController {
 })
 export class NotificationModule {}
 
-export async function bootstrapNotifications() {
+export async function bootstrapNotification() {
   const app = await NestFactory.createMicroservice(NotificationModule, {
     transport: Transport.TCP,
-    options: { port: 8876 }
+    options: {
+      host: '0.0.0.0',
+      port: 8876
+    }
   });
+  await app.listen();
   return app;
+}
+
+if (process.env.NODE_ENV !== 'test') {
+  bootstrapNotification().then(() => {
+    console.log('[NotificationService] NestJS TCP Microservice listening on port 8876');
+  });
 }

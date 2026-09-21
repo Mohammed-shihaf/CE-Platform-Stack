@@ -1,22 +1,37 @@
 import { describe, it, expect } from 'vitest';
-import { calculateTaxRateEngine } from '../src/fixtures/duplication/taxRateEngine';
-import { executeTaxWorkflow } from '../src/fixtures/complexity/taxWorkflow';
+import { TaxSettlementEngine } from '../src/domain/tax/TaxSettlementEngine';
+import { TaxWorkflowEngine } from '../src/domain/workflow/TaxWorkflowEngine';
+import { BillingRepository } from '../src/repositories/BillingRepository';
 
-describe('NestJS Billing Microservice Tests', () => {
-  it('calculates California tax rate correctly', () => {
-    const res = calculateTaxRateEngine(100, 'CA', false);
-    expect(res.taxAmount).toBe(8.25);
-    expect(res.netAmount).toBe(108.25);
+describe('NestJS Billing Microservice Domain Tests', () => {
+  const taxEngine = new TaxSettlementEngine();
+  const workflowEngine = new TaxWorkflowEngine();
+  const billingRepo = new BillingRepository();
+
+  it('computes standard tax settlement', () => {
+    const res = taxEngine.computeTaxSettlement({
+      baseAmount: 1000,
+      stateCode: 'US',
+      isTaxExempt: false,
+      category: 'STANDARD'
+    });
+    expect(res.taxAmount).toBe(82.50);
+    expect(res.totalGrossAmount).toBe(1082.50);
   });
 
-  it('exempts verified non-profit', () => {
-    const res = calculateTaxRateEngine(1000, 'CA', true);
-    expect(res.taxAmount).toBe(0);
-    expect(res.breakdown).toBe('EXEMPT');
+  it('evaluates enterprise cross border treaty workflow', () => {
+    const route = workflowEngine.evaluateTaxWorkflow('ENTERPRISE', 50000, true, true);
+    expect(route).toBe('CROSS_BORDER_TREATY_EXEMPT');
   });
 
-  it('evaluates certified global exemption workflow', () => {
-    const treatment = executeTaxWorkflow('GLOBAL', 200000, true, true);
-    expect(treatment).toBe('CERTIFIED_GLOBAL_EXEMPTION');
+  it('evaluates commercial domestic workflow', () => {
+    const route = workflowEngine.evaluateTaxWorkflow('COMMERCIAL', 10000, false, false);
+    expect(route).toBe('COMMERCIAL_STANDARD_QUEUE');
+  });
+
+  it('generates customer invoice query in repository', () => {
+    const q = billingRepo.queryInvoicesByCustomerRaw('Acme Corp');
+    expect(q).toContain("SELECT id, invoice_number");
+    expect(q).toContain("Acme Corp");
   });
 });

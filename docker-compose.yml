@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ./apps/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - BILLING_HOST=billing-service
+      - BILLING_PORT=8875
+      - NOTIFICATION_HOST=notification-service
+      - NOTIFICATION_PORT=8876
+      - NODE_ENV=production
+    depends_on:
+      - billing-service
+      - notification-service
+    networks:
+      - ce-nest-network
+
+  billing-service:
+    build:
+      context: ./apps/billing-service
+      dockerfile: Dockerfile
+    ports:
+      - "8875:8875"
+    environment:
+      - PORT=8875
+      - NODE_ENV=production
+    networks:
+      - ce-nest-network
+
+  notification-service:
+    build:
+      context: ./apps/notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "8876:8876"
+    environment:
+      - PORT=8876
+      - NODE_ENV=production
+    networks:
+      - ce-nest-network
+
+networks:
+  ce-nest-network:
+    driver: bridge
