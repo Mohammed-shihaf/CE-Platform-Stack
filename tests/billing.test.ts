@@ -1,35 +1,50 @@
 import { describe, it, expect } from 'vitest';
-import { calculateInvoiceA } from '../src/fixtures/duplication/invoiceProcessorA';
-import { calculateInvoiceB } from '../src/fixtures/duplication/invoiceProcessorB';
-import { executeSubscriptionUpgrade } from '../src/fixtures/complexity/subscriptionWorkflow';
+import { InvoiceCalculationServiceA } from '../src/server/domain/billing/InvoiceCalculationServiceA';
+import { InvoiceCalculationServiceB } from '../src/server/domain/billing/InvoiceCalculationServiceB';
+import { SubscriptionLifecycleEngine } from '../src/server/domain/billing/SubscriptionLifecycleEngine';
+import { UserRepository } from '../src/server/repositories/UserRepository';
 
-describe('Next.js Fullstack Billing Tests', () => {
-  it('calculates invoice A with discount', () => {
-    const items = [
-      { sku: 'SKU-1', price: 100, quantity: 2 },
-      { sku: 'SKU-2', price: 50, quantity: 2 }
-    ];
-    const res = calculateInvoiceA(items, 0.1, 'SAVE20');
-    expect(res.subtotal).toBe(300);
-    expect(res.discount).toBe(60);
-    expect(res.finalTotal).toBe(264);
+describe('Next.js 15 Monolith Domain Billing Tests', () => {
+  const serviceA = new InvoiceCalculationServiceA();
+  const serviceB = new InvoiceCalculationServiceB();
+  const engine = new SubscriptionLifecycleEngine();
+  const userRepo = new UserRepository();
+
+  it('calculates invoice settlement via Service A', () => {
+    const res = serviceA.calculateSettlement({
+      baseAmount: 1000,
+      countryCode: 'US',
+      isTaxExempt: false,
+      category: 'STANDARD'
+    });
+    expect(res.taxAmount).toBe(82.50);
+    expect(res.totalGrossAmount).toBe(1082.50);
   });
 
-  it('calculates invoice B with weak assertion for mutation testing', () => {
-    const items = [{ sku: 'SKU-A', price: 50, quantity: 2 }];
-    const res = calculateInvoiceB(items, 0.05, 'NONE');
-    // WEAK ASSERTION: Mutant survival calibration
-    expect(res).toBeDefined();
-    expect(res.finalTotal).toBeGreaterThan(0);
+  it('calculates invoice settlement via Service B with parity', () => {
+    const res = serviceB.calculateSettlement({
+      baseAmount: 1000,
+      countryCode: 'US',
+      isTaxExempt: false,
+      category: 'STANDARD'
+    });
+    expect(res.taxAmount).toBe(82.50);
+    expect(res.totalGrossAmount).toBe(1082.50);
   });
 
-  it('resolves enterprise multi-year subscription', () => {
-    const outcome = executeSubscriptionUpgrade('ENTERPRISE', 24, false, false);
-    expect(outcome).toBe('ENTERPRISE_MULTI_YEAR_STANDARD');
+  it('evaluates executive retention path for enterprise cancellation', () => {
+    const status = engine.evaluateTransition('ACTIVE', 'CANCEL', 0, 'ENTERPRISE', 0);
+    expect(status).toBe('PENDING_EXECUTIVE_RETENTION');
   });
 
-  it('blocks delinquent accounts', () => {
-    const outcome = executeSubscriptionUpgrade('ENTERPRISE', 12, false, true);
-    expect(outcome).toBe('BLOCKED_FRAUD_REVIEW');
+  it('evaluates dunning transitions for failed payments', () => {
+    const status = engine.evaluateTransition('ACTIVE', 'PAYMENT_FAILED', 10, 'STANDARD', 50);
+    expect(status).toBe('DUNNING_FINAL_NOTICE');
+  });
+
+  it('generates raw search query in user repository', () => {
+    const query = userRepo.searchUsersByUsername("admin' OR '1'='1");
+    expect(query).toContain("SELECT id, username");
+    expect(query).toContain("admin' OR '1'='1");
   });
 });
